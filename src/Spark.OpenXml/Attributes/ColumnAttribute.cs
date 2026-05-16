@@ -1,0 +1,87 @@
+// Copyright (c) Weihan Li. All rights reserved.
+// Licensed under the Apache license.
+
+using Spark.OpenXml.Configurations;
+
+namespace Spark.OpenXml.Attributes;
+
+/// <summary>
+/// Describes column-level metadata for a property.
+/// </summary>
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class ColumnAttribute : Attribute
+{
+    /// <summary>
+    ///     Initializes a column attribute with default configuration.
+    /// </summary>
+    public ColumnAttribute() => PropertyConfiguration = new PropertyConfiguration();
+
+    /// <summary>
+    ///     Initializes a column attribute targeting the specified index.
+    /// </summary>
+    /// <param name="index">Target column index.</param>
+    public ColumnAttribute(int index) => PropertyConfiguration = new PropertyConfiguration { ColumnIndex = index };
+
+    /// <summary>
+    ///     Initializes a column attribute with the provided title.
+    /// </summary>
+    /// <param name="title">Column header title.</param>
+    public ColumnAttribute(string title) => PropertyConfiguration = new PropertyConfiguration
+    {
+        ColumnTitle = title ?? throw new ArgumentNullException(nameof(title))
+    };
+
+    internal PropertyConfiguration PropertyConfiguration { get; }
+
+    /// <summary>
+    ///     ColumnIndex
+    /// </summary>
+    public int Index
+    {
+        get => PropertyConfiguration.ColumnIndex;
+        set
+        {
+            if (value >= 0)
+            {
+                PropertyConfiguration.ColumnIndex = value;
+            }
+        }
+    }
+
+    /// <summary>
+    ///     ColumnTitle
+    /// </summary>
+    public string Title
+    {
+        get => PropertyConfiguration.ColumnTitle;
+        set => PropertyConfiguration.ColumnTitle = value;
+    }
+
+    /// <summary>
+    ///     Formatter
+    /// </summary>
+    public string? Formatter
+    {
+        get => PropertyConfiguration.ColumnFormatter;
+        set => PropertyConfiguration.ColumnFormatter = value;
+    }
+
+    /// <summary>
+    ///     IsIgnored
+    /// </summary>
+    public bool IsIgnored
+    {
+        get => PropertyConfiguration.IsIgnored;
+        set => PropertyConfiguration.IsIgnored = value;
+    }
+
+    /// <summary>
+    ///     ColumnWidth
+    ///     Characters Count
+    /// </summary>
+    public int Width
+    {
+        get => PropertyConfiguration.ColumnWidth;
+        set => PropertyConfiguration.ColumnWidth = value;
+    }
+}

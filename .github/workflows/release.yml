@@ -1,0 +1,28 @@
+name: Release
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    name: Release
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET SDK
+      uses: WeihanLi/dotnet-install@v0.2.0
+      with:
+        version: |
+            10.0.x
+    - name: Build
+      shell: pwsh
+      run: dotnet build.cs --stable=true
+    - name: Get Release Version
+      shell: pwsh
+      run: .\build\getReleaseVersion.ps1
+    - name: Create GitHub release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: ${{ env.ReleaseVersion }}
+        title: ${{ env.ReleaseVersion }}
+        prerelease: false

@@ -1,0 +1,14 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))"
+          Condition="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../')) != ''" />
+  <PropertyGroup>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Spark.OpenXml\Spark.OpenXml.csproj" />
+    <Using Include="Spark.OpenXml" />
+    <Using Include="Spark.OpenXml.Attributes" />
+    <Using Include="Spark.OpenXml.Configurations" />
+    <Using Include="Spark.OpenXml.Attributes.ColumnAttribute" Alias="ColumnAttribute" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,55 @@
+name: default
+
+on: [push, pull_request]
+
+jobs:
+  mac-build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET SDK
+      uses: WeihanLi/dotnet-install@v0.2.0
+      with:
+        version: |
+            10.0.x
+    - name: dotnet info
+      run: |
+        dotnet tool install -g dotnet-execute
+        dotnet-exec info
+    - name: build
+      run: dotnet build.cs --target=test
+
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET SDK
+      uses: WeihanLi/dotnet-install@v0.2.0
+      with:
+        version: |
+            10.0.x
+    - name: dotnet info
+      run: |
+        dotnet tool install -g dotnet-execute
+        dotnet-exec info
+    # - name: font configure
+    #   run: |
+    #      sudo apt update && sudo apt-get install -y ttf-mscorefonts-installer fontconfig fonts-lato libgdiplus libc6-dev && sudo ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+    - name: build
+      run: dotnet build.cs --target=build
+      
+  windows-build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET SDK
+      uses: WeihanLi/dotnet-install@v0.2.0
+      with:
+        version: |
+            10.0.x
+    - name: dotnet info
+      run: |
+        dotnet tool install -g dotnet-execute
+        dotnet-exec info
+    - name: build
+      run: dotnet build.cs

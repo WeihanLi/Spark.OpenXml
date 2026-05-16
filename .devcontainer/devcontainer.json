@@ -1,0 +1,12 @@
+{
+    "name": "CodeSpace",
+    "dockerFile": "Dockerfile",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "davidanson.vscode-markdownlint"
+            ]
+        }
+    }
+}
