@@ -1,10 +1,10 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using System.Text;
-using WeihanLi.Extensions;
 using Spark.OpenXml.Configurations;
 using Spark.OpenXml.Test.Models;
+using System.Text;
+using WeihanLi.Extensions;
 using Xunit;
 
 namespace Spark.OpenXml.Test;

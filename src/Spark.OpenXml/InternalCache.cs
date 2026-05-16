@@ -1,9 +1,9 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using Spark.OpenXml.Configurations;
 using System.Collections.Concurrent;
 using System.Reflection;
-using Spark.OpenXml.Configurations;
 
 namespace Spark.OpenXml;
 

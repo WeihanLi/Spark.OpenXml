@@ -1,13 +1,12 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using System.Globalization;
+using Spark.OpenXml.Configurations;
 using System.Reflection;
 using WeihanLi.Common;
 using WeihanLi.Common.Models;
 using WeihanLi.Common.Services;
 using WeihanLi.Extensions;
-using Spark.OpenXml.Configurations;
 
 namespace Spark.OpenXml;
 
