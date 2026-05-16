@@ -1,11 +1,11 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using Spark.OpenXml.Settings;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using WeihanLi.Common.Services;
-using Spark.OpenXml.Settings;
 
 namespace Spark.OpenXml.Configurations;
 

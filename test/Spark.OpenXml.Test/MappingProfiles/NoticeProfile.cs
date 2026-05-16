@@ -1,9 +1,9 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using WeihanLi.Extensions;
 using Spark.OpenXml.Configurations;
 using Spark.OpenXml.Test.Models;
+using WeihanLi.Extensions;
 
 namespace Spark.OpenXml.Test.MappingProfiles;
 
