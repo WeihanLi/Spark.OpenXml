@@ -69,7 +69,8 @@ public interface IExcelConfiguration
 /// Strongly typed configuration contract for a specific entity.
 /// </summary>
 /// <typeparam name="TEntity">Entity type.</typeparam>
-public interface IExcelConfiguration<TEntity> : IExcelConfiguration
+public interface IExcelConfiguration<
+    [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity> : IExcelConfiguration
 {
     /// <summary>
     ///     register validator for excel import
@@ -105,7 +106,6 @@ public interface IExcelConfiguration<TEntity> : IExcelConfiguration
     /// <typeparam name="TProperty">PropertyType</typeparam>
     /// <param name="propertyExpression">propertyExpression to get property info</param>
     /// <returns>current property configuration</returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(
         Expression<Func<TEntity, TProperty>> propertyExpression);
 

@@ -132,11 +132,14 @@ internal abstract class ExcelConfiguration : IExcelConfiguration
     #endregion Filter
 }
 
-internal sealed class ExcelConfiguration<TEntity> : ExcelConfiguration, IExcelConfiguration<TEntity>
+internal sealed class ExcelConfiguration<
+    [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity> : ExcelConfiguration,
+    IExcelConfiguration<TEntity>
 {
     /// <summary>
     ///     Gets the entity type represented by this configuration.
     /// </summary>
+    [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)]
     public Type EntityType => typeof(TEntity);
 
     internal Func<TEntity?, bool>? DataFilter { get; private set; }
@@ -189,7 +192,6 @@ internal sealed class ExcelConfiguration<TEntity> : ExcelConfiguration, IExcelCo
     /// <returns>The <see cref="IPropertyConfiguration" />.</returns>
     /// <param name="propertyExpression">The property expression.</param>
     /// <typeparam name="TProperty">The type of parameter.</typeparam>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     public IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(
         Expression<Func<TEntity, TProperty>> propertyExpression)
     {

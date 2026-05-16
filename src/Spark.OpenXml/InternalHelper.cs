@@ -31,12 +31,12 @@ internal static class InternalHelper
     /// </summary>
     /// <param name="entityType">entityType</param>
     /// <returns>excel configuration</returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IExcelConfiguration GetExcelConfigurationMapping(Type entityType) =>
-        InternalCache.TypeExcelConfigurationDictionary.GetOrAdd(entityType, type =>
+    public static IExcelConfiguration GetExcelConfigurationMapping(
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] Type entityType) =>
+        InternalCache.TypeExcelConfigurationDictionary.GetOrAdd(entityType, _ =>
         {
-            var excelConfiguration = CreateExcelConfiguration(type, () => (ExcelConfiguration)
+            var excelConfiguration = CreateExcelConfiguration(entityType, () => (ExcelConfiguration)
                 Guard.NotNull(Activator.CreateInstance(typeof(ExcelConfiguration<>).MakeGenericType(entityType)))
                 );
             return excelConfiguration;
@@ -47,20 +47,20 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity</typeparam>
     /// <returns>IExcelConfiguration</returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static ExcelConfiguration<TEntity> GetExcelConfigurationMapping<TEntity>() =>
+    public static ExcelConfiguration<TEntity> GetExcelConfigurationMapping<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>() =>
         (ExcelConfiguration<TEntity>)InternalCache.TypeExcelConfigurationDictionary.GetOrAdd(typeof(TEntity),
-            type =>
+            _ =>
             {
                 var excelConfiguration =
-                    CreateExcelConfiguration(type, () => new ExcelConfiguration<TEntity>());
+                    CreateExcelConfiguration(typeof(TEntity), () => new ExcelConfiguration<TEntity>());
                 return excelConfiguration;
             });
 
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    private static ExcelConfiguration CreateExcelConfiguration(Type type,
+    private static ExcelConfiguration CreateExcelConfiguration(
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] Type type,
         Func<ExcelConfiguration> newConfigurationFunc)
     {
         var excelConfiguration = newConfigurationFunc();
@@ -165,9 +165,9 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<TEntity>() =>
+    public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>() =>
         GetPropertyColumnDictionary(GetExcelConfigurationMapping<TEntity>());
 
     /// <summary>
@@ -175,9 +175,9 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<TEntity>(
+    public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>(
         ExcelConfiguration<TEntity> configuration)
     {
         AdjustColumnIndex(configuration);
@@ -191,9 +191,9 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IReadOnlyList<PropertyInfo> GetPropertiesForCsvHelper<TEntity>()
+    public static IReadOnlyList<PropertyInfo> GetPropertiesForCsvHelper<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>()
     {
         var configuration = GetExcelConfigurationMapping<TEntity>();
         AdjustColumnIndex(configuration);

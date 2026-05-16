@@ -1,4 +1,4 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
 using WeihanLi.Common.Helpers;
@@ -181,6 +181,8 @@ Console.ReadLine();
 
 SheetNameTest();
 
+[System.Diagnostics.CodeAnalysis.RequiresUnreferencedCode("")]
+[System.Diagnostics.CodeAnalysis.RequiresDynamicCode("")]
 static void SheetNameTest()
 {
     List<ExcelExportDTO> exprotDataList = new List<ExcelExportDTO>();

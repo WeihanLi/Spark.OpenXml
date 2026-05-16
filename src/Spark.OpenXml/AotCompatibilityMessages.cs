@@ -1,10 +1,16 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Spark.OpenXml;
 
 internal static class AotCompatibilityMessages
 {
+    public const DynamicallyAccessedMemberTypes EntityAccessedMembers =
+        DynamicallyAccessedMemberTypes.PublicProperties |
+        DynamicallyAccessedMemberTypes.PublicParameterlessConstructor;
+
     public const string ReflectionMapping =
         "Entity mapping uses reflection over runtime types and is not fully compatible with trimming. Use explicit mappings and preserve entity members for Native AOT scenarios.";
 

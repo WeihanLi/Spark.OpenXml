@@ -23,9 +23,9 @@ public static class FluentSettings
     /// </summary>
     /// <typeparam name="TEntity">TEntity</typeparam>
     /// <returns>excel configuration for entity</returns>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IExcelConfiguration<TEntity> For<TEntity>() =>
+    public static IExcelConfiguration<TEntity> For<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>() =>
         InternalHelper.GetExcelConfigurationMapping<TEntity>();
 
     /// <summary>
@@ -68,9 +68,9 @@ public static class FluentSettings
     /// </summary>
     /// <typeparam name="TEntity">entity type</typeparam>
     /// <typeparam name="TMappingProfile">entity type mapping profile</typeparam>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static void LoadMappingProfile<TEntity, TMappingProfile>()
+    public static void LoadMappingProfile<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity, TMappingProfile>()
         where TMappingProfile : IMappingProfile<TEntity>, new()
     {
         var profile = new TMappingProfile();
@@ -83,9 +83,10 @@ public static class FluentSettings
     /// <param name="profile">profile</param>
     /// <typeparam name="TEntity">entity type</typeparam>
     /// <typeparam name="TMappingProfile">mapping profile type</typeparam>
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static void LoadMappingProfile<TEntity, TMappingProfile>(TMappingProfile profile) where TMappingProfile : IMappingProfile<TEntity>
+    public static void LoadMappingProfile<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity, TMappingProfile>(
+        TMappingProfile profile) where TMappingProfile : IMappingProfile<TEntity>
     {
         Guard.NotNull(profile);
         profile.Configure(InternalHelper.GetExcelConfigurationMapping<TEntity>());

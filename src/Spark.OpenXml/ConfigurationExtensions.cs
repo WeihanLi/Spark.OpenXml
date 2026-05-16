@@ -147,7 +147,8 @@ public static class ConfigurationExtensions
     /// <param name="propertyName">propertyName</param>
     /// <returns>PropertyConfiguration</returns>
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IPropertyConfiguration<TEntity, string> Property<TEntity>(
+    public static IPropertyConfiguration<TEntity, string> Property<
+        [DynamicallyAccessedMembers(AotCompatibilityMessages.EntityAccessedMembers)] TEntity>(
         this IExcelConfiguration<TEntity> excelConfiguration, string propertyName) =>
         excelConfiguration.Property<string>(propertyName);
 
