@@ -13,9 +13,8 @@ namespace Spark.OpenXml.Test;
 
 public class ExcelTest
 {
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void BasicImportExportTest(ExcelFormat excelFormat)
+    [Fact]
+    public void BasicImportExportTest()
     {
         var list = new List<Notice?>();
         for (var i = 0; i < 10; i++)
@@ -32,8 +31,8 @@ public class ExcelTest
         list.Add(new Notice { Title = "nnnn" });
         list.Add(null);
 
-        var excelBytes = list.ToExcelBytes(excelFormat);
-        var importedList = ExcelHelper.ToEntityList<Notice>(excelBytes, excelFormat);
+        var excelBytes = list.ToExcelBytes();
+        var importedList = ExcelHelper.ToEntityList<Notice>(excelBytes);
 
         Assert.Equal(list.Count, importedList.Count);
         for (var i = 0; i < list.Count; i++)
@@ -55,9 +54,8 @@ public class ExcelTest
         }
     }
 
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void FluentFormattersTest(ExcelFormat excelFormat)
+    [Fact]
+    public void FluentFormattersTest()
     {
         IReadOnlyList<Notice> list = Enumerable.Range(0, 10).Select(i => new Notice
         {
@@ -75,8 +73,8 @@ public class ExcelTest
                 .HasColumnOutputFormatter(x => $"{x}_Test")
                 .HasColumnInputFormatter(x => Convert.ToInt32(x?.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries)[0]));
 
-            var excelBytes = list.ToExcelBytes(excelFormat);
-            var importedList = ExcelHelper.ToEntityList<Notice>(excelBytes, excelFormat);
+            var excelBytes = list.ToExcelBytes();
+            var importedList = ExcelHelper.ToEntityList<Notice>(excelBytes);
 
             Assert.Equal(list.Count, importedList.Count);
             for (var i = 0; i < list.Count; i++)
@@ -92,9 +90,8 @@ public class ExcelTest
         }
     }
 
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void SheetNameTest_ToExcelBytes(ExcelFormat excelFormat)
+    [Fact]
+    public void SheetNameTest_ToExcelBytes()
     {
         IReadOnlyList<Notice> list = Enumerable.Range(0, 10).Select(i => new Notice
         {
@@ -110,16 +107,15 @@ public class ExcelTest
         {
             settings.HasSheetSetting(s => s.SheetName = "Test");
 
-            var excelBytes = list.ToExcelBytes(excelFormat);
+            var excelBytes = list.ToExcelBytes();
             Assert.Equal("Test", ExcelHelper.GetSheetNames(excelBytes)[0]);
 
             settings.HasSheetSetting(s => s.SheetName = "NoticeList");
         }
     }
 
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void ValidatorTest(ExcelFormat excelFormat)
+    [Fact]
+    public void ValidatorTest()
     {
         var list = new List<Job>
         {
@@ -131,16 +127,15 @@ public class ExcelTest
             new()
         };
 
-        var bytes = list.ToExcelBytes(excelFormat);
-        var result = ExcelHelper.ToEntityListWithValidationResult<Job>(bytes, excelFormat);
+        var bytes = list.ToExcelBytes();
+        var result = ExcelHelper.ToEntityListWithValidationResult<Job>(bytes);
 
         Assert.Equal(list.Count, result.EntityList.Count);
         Assert.Single(result.ValidationResults);
     }
 
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void ValidatorTest_CustomValidator(ExcelFormat excelFormat)
+    [Fact]
+    public void ValidatorTest_CustomValidator()
     {
         var list = new List<Job>
         {
@@ -156,16 +151,15 @@ public class ExcelTest
             Errors = new Dictionary<string, string[]> { { "", ["Mock error"] } }
         });
 
-        var bytes = list.ToExcelBytes(excelFormat);
-        var result = ExcelHelper.ToEntityListWithValidationResult(bytes, excelFormat, validator: validator);
+        var bytes = list.ToExcelBytes();
+        var result = ExcelHelper.ToEntityListWithValidationResult(bytes, validator: validator);
 
         Assert.Equal(list.Count, result.EntityList.Count);
         Assert.Single(result.ValidationResults);
     }
 
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void AttributeColumnRangeImportTest(ExcelFormat excelFormat)
+    [Fact]
+    public void AttributeColumnRangeImportTest()
     {
         IReadOnlyList<CellRangeAttributeTest> list = Enumerable.Range(0, 10).Select(i => new CellRangeAttributeTest
         {
@@ -174,8 +168,8 @@ public class ExcelTest
             Name = $"title_{i}",
         }).ToArray();
 
-        var excelBytes = list.ToExcelBytes(excelFormat);
-        var importedList = ExcelHelper.ToEntityList<CellRangeAttributeTest>(excelBytes, excelFormat);
+        var excelBytes = list.ToExcelBytes();
+        var importedList = ExcelHelper.ToEntityList<CellRangeAttributeTest>(excelBytes);
 
         Assert.Equal(list.Count, importedList.Count);
         for (var i = 0; i < importedList.Count; i++)

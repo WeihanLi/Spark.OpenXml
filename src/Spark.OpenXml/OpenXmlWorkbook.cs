@@ -587,10 +587,8 @@ internal static class OpenXmlEntityMapper
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IReadOnlyList<OpenXmlSheetExport> EntitiesToSheets<TEntity>(IList<TEntity> entityList,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx)
+    public static IReadOnlyList<OpenXmlSheetExport> EntitiesToSheets<TEntity>(IList<TEntity> entityList)
     {
-        ExcelHelper.EnsureXlsx(excelFormat);
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
         var sheetSetting = configuration.SheetSettings[0];
         var maxRowCount = InternalConstants.MaxRowCountXlsx - sheetSetting.StartRowIndex;

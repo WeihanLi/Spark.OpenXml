@@ -64,7 +64,7 @@ For package-related changes, run the build script so package validation and shar
 - Add or update tests in `test/Spark.OpenXml.Test` for behavior changes.
 - Existing tests use xUnit v3 attributes such as `[Fact]` and `[Theory]`.
 - Test data lives under `test/Spark.OpenXml.Test/TestData` and is copied to the test output. Add small, focused files only when necessary.
-- Cover both Excel formats when the behavior is format-sensitive. The test project already has reusable Excel format theory data.
+- Cover `.xlsx` import/export behavior where the behavior is format-sensitive.
 - For CSV changes, verify delimiters, header handling, quoting, null/empty values, and round-trip import/export behavior as applicable.
 - For Excel import/export changes, verify both entity and `DataTable` paths when the touched code is shared.
 

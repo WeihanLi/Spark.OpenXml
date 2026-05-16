@@ -40,28 +40,20 @@ public static class OpenXmlExtensions
         }
 
         using var stream = File.Create(excelPath);
-        entityList.ToExcelStream(stream, ExcelFormat.Xlsx, sheetIndex);
+        entityList.ToExcelStream(stream, sheetIndex);
     }
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream)
-        => ToExcelStream(entityList, stream, ExcelFormat.Xlsx, 0);
+        => ToExcelStream(entityList, stream, 0);
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream,
-        ExcelFormat excelFormat)
-        => ToExcelStream(entityList, stream, excelFormat, 0);
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream,
-        ExcelFormat excelFormat, int sheetIndex)
+    public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream, int sheetIndex)
     {
         Guard.NotNull(entityList);
         Guard.NotNull(stream);
-        ExcelHelper.EnsureXlsx(excelFormat);
 
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
         var sheet = OpenXmlEntityMapper.EntitiesToSheet(entityList, sheetIndex);
@@ -70,35 +62,26 @@ public static class OpenXmlExtensions
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static void ToExcelStream<TEntity>(this IList<TEntity> entityList, Stream stream,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx)
+    public static void ToExcelStream<TEntity>(this IList<TEntity> entityList, Stream stream)
     {
         Guard.NotNull(entityList);
         Guard.NotNull(stream);
-        ExcelHelper.EnsureXlsx(excelFormat);
 
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
-        var sheets = OpenXmlEntityMapper.EntitiesToSheets(entityList, excelFormat);
+        var sheets = OpenXmlEntityMapper.EntitiesToSheets(entityList);
         OpenXmlWorkbookWriter.Write(stream, sheets, configuration.ExcelSetting);
     }
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList)
-        => ToExcelBytes(entityList, ExcelFormat.Xlsx, 0);
+        => ToExcelBytes(entityList, 0);
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, ExcelFormat excelFormat)
-        => ToExcelBytes(entityList, excelFormat, 0);
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, ExcelFormat excelFormat,
-        int sheetIndex)
+    public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, int sheetIndex)
     {
         Guard.NotNull(entityList);
-        ExcelHelper.EnsureXlsx(excelFormat);
 
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
         var sheet = OpenXmlEntityMapper.EntitiesToSheet(entityList, sheetIndex);
@@ -107,14 +90,12 @@ public static class OpenXmlExtensions
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static byte[] ToExcelBytes<TEntity>(this IList<TEntity> entityList,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx)
+    public static byte[] ToExcelBytes<TEntity>(this IList<TEntity> entityList)
     {
         Guard.NotNull(entityList);
-        ExcelHelper.EnsureXlsx(excelFormat);
 
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
-        var sheets = OpenXmlEntityMapper.EntitiesToSheets(entityList, excelFormat);
+        var sheets = OpenXmlEntityMapper.EntitiesToSheets(entityList);
         return OpenXmlWorkbookWriter.WriteToBytes(sheets, configuration.ExcelSetting);
     }
 

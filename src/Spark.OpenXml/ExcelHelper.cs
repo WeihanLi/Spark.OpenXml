@@ -56,14 +56,6 @@ public static class ExcelHelper
         return false;
     }
 
-    internal static void EnsureXlsx(ExcelFormat excelFormat)
-    {
-        if (excelFormat != ExcelFormat.Xlsx)
-        {
-            throw new NotSupportedException("Only ExcelFormat.Xlsx is supported by Spark.OpenXml.");
-        }
-    }
-
     public static IReadOnlyList<string> GetSheetNames(string excelPath)
     {
         if (!ValidateExcelFilePath(excelPath, out var msg))
@@ -85,34 +77,21 @@ public static class ExcelHelper
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes) where TEntity : new()
-        => ToEntityList<TEntity>(excelBytes, ExcelFormat.Xlsx, 0);
+        => ToEntityList<TEntity>(excelBytes, 0);
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, int sheetIndex) where TEntity : new()
-        => ToEntityList<TEntity>(excelBytes, ExcelFormat.Xlsx, sheetIndex);
+        => ToEntities<TEntity>(excelBytes, sheetIndex).ToList();
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, ExcelFormat excelFormat)
-        where TEntity : new()
-        => ToEntityList<TEntity>(excelBytes, excelFormat, 0);
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, ExcelFormat excelFormat, int sheetIndex)
-        where TEntity : new()
-        => ToEntities<TEntity>(excelBytes, excelFormat, sheetIndex).ToList();
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IEnumerable<TEntity?> ToEntities<TEntity>(byte[] excelBytes,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx, int sheetIndex = 0)
+    public static IEnumerable<TEntity?> ToEntities<TEntity>(byte[] excelBytes, int sheetIndex = 0)
         where TEntity : new()
     {
         Guard.NotNull(excelBytes);
         using var stream = new MemoryStream(excelBytes);
-        return ToEntities<TEntity>(stream, excelFormat, sheetIndex).ToList();
+        return ToEntities<TEntity>(stream, sheetIndex).ToList();
     }
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
@@ -120,46 +99,31 @@ public static class ExcelHelper
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
         ToEntityListWithValidationResult<TEntity>(
             byte[] excelBytes,
-            ExcelFormat excelFormat = ExcelFormat.Xlsx,
             int sheetIndex = 0,
             IValidator<TEntity>? validator = null)
         where TEntity : new()
     {
         Guard.NotNull(excelBytes);
         using var stream = new MemoryStream(excelBytes);
-        return ToEntityListWithValidationResult(stream, excelFormat, sheetIndex, validator);
+        return ToEntityListWithValidationResult(stream, sheetIndex, validator);
     }
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream) where TEntity : new()
-        => ToEntityList<TEntity>(excelStream, ExcelFormat.Xlsx, 0);
+        => ToEntityList<TEntity>(excelStream, 0);
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, int sheetIndex)
         where TEntity : new()
-        => ToEntityList<TEntity>(excelStream, ExcelFormat.Xlsx, sheetIndex);
+        => ToEntities<TEntity>(excelStream, sheetIndex).ToList();
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, ExcelFormat excelFormat)
-        where TEntity : new()
-        => ToEntityList<TEntity>(excelStream, excelFormat, 0);
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, ExcelFormat excelFormat, int sheetIndex)
-        where TEntity : new()
-        => ToEntities<TEntity>(excelStream, excelFormat, sheetIndex).ToList();
-
-    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
-    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
-    public static IEnumerable<TEntity?> ToEntities<TEntity>(Stream excelStream,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx, int sheetIndex = 0)
+    public static IEnumerable<TEntity?> ToEntities<TEntity>(Stream excelStream, int sheetIndex = 0)
         where TEntity : new()
     {
-        EnsureXlsx(excelFormat);
         Guard.NotNull(excelStream);
         return OpenXmlEntityMapper.SheetToEntities<TEntity>(
             OpenXmlWorkbookReader.ReadSheet(excelStream, sheetIndex),
@@ -171,12 +135,10 @@ public static class ExcelHelper
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
         ToEntityListWithValidationResult<TEntity>(
             Stream excelStream,
-            ExcelFormat excelFormat = ExcelFormat.Xlsx,
             int sheetIndex = 0,
             IValidator<TEntity>? validator = null)
         where TEntity : new()
     {
-        EnsureXlsx(excelFormat);
         Guard.NotNull(excelStream);
 
         var validationResults = new Dictionary<int, ValidationResult>();
@@ -223,7 +185,7 @@ public static class ExcelHelper
         }
 
         using var stream = new FileStream(excelPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        return ToEntities<TEntity>(stream, ExcelFormat.Xlsx, sheetIndex).ToList();
+        return ToEntities<TEntity>(stream, sheetIndex).ToList();
     }
 
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
@@ -241,7 +203,7 @@ public static class ExcelHelper
         }
 
         using var stream = new FileStream(excelPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        return ToEntityListWithValidationResult(stream, ExcelFormat.Xlsx, sheetIndex, validator);
+        return ToEntityListWithValidationResult(stream, sheetIndex, validator);
     }
 
 }
