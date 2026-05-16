@@ -1,10 +1,9 @@
 <Project>
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-  <Import Project="../build/sign.props" />
   <PropertyGroup>    
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
-    <RepositoryUrl>https://github.com/WeihanLi/WeihanLi.Common</RepositoryUrl>
+    <RepositoryUrl>https://github.com/WeihanLi/Spark.OpenXml</RepositoryUrl>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
@@ -14,7 +13,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>
-      https://github.com/WeihanLi/WeihanLi.Common/blob/dev/docs/ReleaseNotes.md
+      https://github.com/WeihanLi/Spark.OpenXml/blob/dev/docs/ReleaseNotes.md
     </PackageReleaseNotes>
     <PackageIcon>icon.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
