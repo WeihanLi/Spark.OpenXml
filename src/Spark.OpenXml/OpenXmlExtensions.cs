@@ -11,16 +11,35 @@ namespace Spark.OpenXml;
 /// </summary>
 public static class OpenXmlExtensions
 {
+    /// <summary>
+    ///     Exports the entities to an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="excelPath">The output Excel workbook path.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IList<TEntity> entityList, string excelPath)
         => ToExcelFile((IEnumerable<TEntity?>)entityList, excelPath, 0);
 
+    /// <summary>
+    ///     Exports the entities to the first worksheet in an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="excelPath">The output Excel workbook path.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IEnumerable<TEntity?> entityList, string excelPath)
         => ToExcelFile(entityList, excelPath, 0);
 
+    /// <summary>
+    ///     Exports the entities to the specified worksheet in an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="excelPath">The output Excel workbook path.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IEnumerable<TEntity?> entityList, string excelPath, int sheetIndex)
@@ -43,11 +62,24 @@ public static class OpenXmlExtensions
         entityList.ToExcelStream(stream, sheetIndex);
     }
 
+    /// <summary>
+    ///     Exports the entities to the first worksheet in an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="stream">The output Excel workbook stream.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream)
         => ToExcelStream(entityList, stream, 0);
 
+    /// <summary>
+    ///     Exports the entities to the specified worksheet in an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="stream">The output Excel workbook stream.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream, int sheetIndex)
@@ -60,6 +92,12 @@ public static class OpenXmlExtensions
         OpenXmlWorkbookWriter.Write(stream, new[] { sheet }, configuration.ExcelSetting);
     }
 
+    /// <summary>
+    ///     Exports the entities to an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="stream">The output Excel workbook stream.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IList<TEntity> entityList, Stream stream)
@@ -72,11 +110,24 @@ public static class OpenXmlExtensions
         OpenXmlWorkbookWriter.Write(stream, sheets, configuration.ExcelSetting);
     }
 
+    /// <summary>
+    ///     Exports the entities to Excel workbook bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList)
         => ToExcelBytes(entityList, 0);
 
+    /// <summary>
+    ///     Exports the entities to Excel workbook bytes using the specified worksheet.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, int sheetIndex)
@@ -88,6 +139,12 @@ public static class OpenXmlExtensions
         return OpenXmlWorkbookWriter.WriteToBytes(new[] { sheet }, configuration.ExcelSetting);
     }
 
+    /// <summary>
+    ///     Exports the entities to Excel workbook bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entityList">The entities to export.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IList<TEntity> entityList)
@@ -99,6 +156,15 @@ public static class OpenXmlExtensions
         return OpenXmlWorkbookWriter.WriteToBytes(sheets, configuration.ExcelSetting);
     }
 
+    /// <summary>
+    ///     Exports entities into an Excel workbook file from a template file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entities">The entities to export.</param>
+    /// <param name="templatePath">The Excel template workbook path.</param>
+    /// <param name="excelPath">The output Excel workbook path.</param>
+    /// <param name="sheetIndex">The zero-based template worksheet index.</param>
+    /// <param name="extraData">Additional data available to template bindings.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFileByTemplate<TEntity>(this IEnumerable<TEntity?> entities, string templatePath,
@@ -110,6 +176,15 @@ public static class OpenXmlExtensions
         File.WriteAllBytes(excelPath, bytes);
     }
 
+    /// <summary>
+    ///     Exports entities into an Excel workbook file from template bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entities">The entities to export.</param>
+    /// <param name="templateBytes">The Excel template workbook bytes.</param>
+    /// <param name="excelPath">The output Excel workbook path.</param>
+    /// <param name="sheetIndex">The zero-based template worksheet index.</param>
+    /// <param name="extraData">Additional data available to template bindings.</param>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFileByTemplate<TEntity>(this IEnumerable<TEntity?> entities, byte[] templateBytes,
@@ -118,6 +193,15 @@ public static class OpenXmlExtensions
         File.WriteAllBytes(excelPath, entities.ToExcelBytesByTemplate(templateBytes, sheetIndex, extraData));
     }
 
+    /// <summary>
+    ///     Exports entities into Excel workbook bytes from a template file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entities">The entities to export.</param>
+    /// <param name="templatePath">The Excel template workbook path.</param>
+    /// <param name="sheetIndex">The zero-based template worksheet index.</param>
+    /// <param name="extraData">Additional data available to template bindings.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, string templatePath,
@@ -128,6 +212,15 @@ public static class OpenXmlExtensions
         return entities.ToExcelBytesByTemplate(stream, sheetIndex, extraData);
     }
 
+    /// <summary>
+    ///     Exports entities into Excel workbook bytes from template bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entities">The entities to export.</param>
+    /// <param name="templateBytes">The Excel template workbook bytes.</param>
+    /// <param name="sheetIndex">The zero-based template worksheet index.</param>
+    /// <param name="extraData">Additional data available to template bindings.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, byte[] templateBytes,
@@ -138,6 +231,15 @@ public static class OpenXmlExtensions
         return entities.ToExcelBytesByTemplate(stream, sheetIndex, extraData);
     }
 
+    /// <summary>
+    ///     Exports entities into Excel workbook bytes from a template stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to export.</typeparam>
+    /// <param name="entities">The entities to export.</param>
+    /// <param name="templateStream">The Excel template workbook stream.</param>
+    /// <param name="sheetIndex">The zero-based template worksheet index.</param>
+    /// <param name="extraData">Additional data available to template bindings.</param>
+    /// <returns>The generated Excel workbook bytes.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, Stream templateStream,

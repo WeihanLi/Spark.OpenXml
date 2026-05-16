@@ -56,6 +56,11 @@ public static class ExcelHelper
         return false;
     }
 
+    /// <summary>
+    ///     Gets the worksheet names from an Excel workbook file.
+    /// </summary>
+    /// <param name="excelPath">The path of the Excel workbook.</param>
+    /// <returns>The worksheet names in workbook order.</returns>
     public static IReadOnlyList<string> GetSheetNames(string excelPath)
     {
         if (!ValidateExcelFilePath(excelPath, out var msg))
@@ -67,6 +72,11 @@ public static class ExcelHelper
         return OpenXmlWorkbookReader.GetSheetNames(stream);
     }
 
+    /// <summary>
+    ///     Gets the worksheet names from Excel workbook bytes.
+    /// </summary>
+    /// <param name="excelBytes">The Excel workbook bytes.</param>
+    /// <returns>The worksheet names in workbook order.</returns>
     public static IReadOnlyList<string> GetSheetNames(byte[] excelBytes)
     {
         Guard.NotNull(excelBytes);
@@ -74,16 +84,36 @@ public static class ExcelHelper
         return OpenXmlWorkbookReader.GetSheetNames(stream);
     }
 
+    /// <summary>
+    ///     Imports entities from the first worksheet in Excel workbook bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelBytes">The Excel workbook bytes.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes) where TEntity : new()
         => ToEntityList<TEntity>(excelBytes, 0);
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in Excel workbook bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelBytes">The Excel workbook bytes.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, int sheetIndex) where TEntity : new()
         => ToEntities<TEntity>(excelBytes, sheetIndex).ToList();
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in Excel workbook bytes.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelBytes">The Excel workbook bytes.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entities.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(byte[] excelBytes, int sheetIndex = 0)
@@ -94,6 +124,14 @@ public static class ExcelHelper
         return ToEntities<TEntity>(stream, sheetIndex).ToList();
     }
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in Excel workbook bytes and returns validation results.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelBytes">The Excel workbook bytes.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <param name="validator">The optional validator used to validate imported entities.</param>
+    /// <returns>The imported entity list and validation results keyed by row index.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
@@ -108,17 +146,37 @@ public static class ExcelHelper
         return ToEntityListWithValidationResult(stream, sheetIndex, validator);
     }
 
+    /// <summary>
+    ///     Imports entities from the first worksheet in an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelStream">The Excel workbook stream.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream) where TEntity : new()
         => ToEntityList<TEntity>(excelStream, 0);
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelStream">The Excel workbook stream.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, int sheetIndex)
         where TEntity : new()
         => ToEntities<TEntity>(excelStream, sheetIndex).ToList();
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook stream.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelStream">The Excel workbook stream.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entities.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(Stream excelStream, int sheetIndex = 0)
@@ -130,6 +188,14 @@ public static class ExcelHelper
             sheetIndex);
     }
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook stream and returns validation results.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelStream">The Excel workbook stream.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <param name="validator">The optional validator used to validate imported entities.</param>
+    /// <returns>The imported entity list and validation results keyed by row index.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
@@ -164,16 +230,36 @@ public static class ExcelHelper
         return (entities, validationResults);
     }
 
+    /// <summary>
+    ///     Imports entities from the first worksheet in an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelPath">The path of the Excel workbook.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string excelPath) where TEntity : new()
         => ToEntityList<TEntity>(excelPath, 0);
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelPath">The path of the Excel workbook.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entity list.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string excelPath, int sheetIndex) where TEntity : new()
         => ToEntities<TEntity>(excelPath, sheetIndex).ToList();
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook file.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelPath">The path of the Excel workbook.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <returns>The imported entities.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(string excelPath, int sheetIndex = 0)
@@ -188,6 +274,14 @@ public static class ExcelHelper
         return ToEntities<TEntity>(stream, sheetIndex).ToList();
     }
 
+    /// <summary>
+    ///     Imports entities from the specified worksheet in an Excel workbook file and returns validation results.
+    /// </summary>
+    /// <typeparam name="TEntity">The entity type to import.</typeparam>
+    /// <param name="excelPath">The path of the Excel workbook.</param>
+    /// <param name="sheetIndex">The zero-based worksheet index.</param>
+    /// <param name="validator">The optional validator used to validate imported entities.</param>
+    /// <returns>The imported entity list and validation results keyed by row index.</returns>
     [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
