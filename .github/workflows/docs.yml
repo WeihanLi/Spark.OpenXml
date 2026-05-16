@@ -1,4 +1,5 @@
-name: docfx
+name: docs
+
 on:
   push:
     branches:
@@ -52,9 +53,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: cloudflare-pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy docs/_site --project-name=weihanli-npoi
