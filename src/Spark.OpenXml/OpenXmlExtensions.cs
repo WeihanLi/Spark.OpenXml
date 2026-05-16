@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using WeihanLi.Common;
 
 namespace Spark.OpenXml;
@@ -10,12 +11,18 @@ namespace Spark.OpenXml;
 /// </summary>
 public static class OpenXmlExtensions
 {
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IList<TEntity> entityList, string excelPath)
         => ToExcelFile((IEnumerable<TEntity?>)entityList, excelPath, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IEnumerable<TEntity?> entityList, string excelPath)
         => ToExcelFile(entityList, excelPath, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFile<TEntity>(this IEnumerable<TEntity?> entityList, string excelPath, int sheetIndex)
     {
         Guard.NotNull(entityList);
@@ -36,13 +43,19 @@ public static class OpenXmlExtensions
         entityList.ToExcelStream(stream, ExcelFormat.Xlsx, sheetIndex);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream)
         => ToExcelStream(entityList, stream, ExcelFormat.Xlsx, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream,
         ExcelFormat excelFormat)
         => ToExcelStream(entityList, stream, excelFormat, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IEnumerable<TEntity?> entityList, Stream stream,
         ExcelFormat excelFormat, int sheetIndex)
     {
@@ -55,6 +68,8 @@ public static class OpenXmlExtensions
         OpenXmlWorkbookWriter.Write(stream, new[] { sheet }, configuration.ExcelSetting);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelStream<TEntity>(this IList<TEntity> entityList, Stream stream,
         ExcelFormat excelFormat = ExcelFormat.Xlsx)
     {
@@ -67,12 +82,18 @@ public static class OpenXmlExtensions
         OpenXmlWorkbookWriter.Write(stream, sheets, configuration.ExcelSetting);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList)
         => ToExcelBytes(entityList, ExcelFormat.Xlsx, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, ExcelFormat excelFormat)
         => ToExcelBytes(entityList, excelFormat, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IEnumerable<TEntity?> entityList, ExcelFormat excelFormat,
         int sheetIndex)
     {
@@ -84,6 +105,8 @@ public static class OpenXmlExtensions
         return OpenXmlWorkbookWriter.WriteToBytes(new[] { sheet }, configuration.ExcelSetting);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytes<TEntity>(this IList<TEntity> entityList,
         ExcelFormat excelFormat = ExcelFormat.Xlsx)
     {
@@ -95,6 +118,8 @@ public static class OpenXmlExtensions
         return OpenXmlWorkbookWriter.WriteToBytes(sheets, configuration.ExcelSetting);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFileByTemplate<TEntity>(this IEnumerable<TEntity?> entities, string templatePath,
         string excelPath, int sheetIndex = 0, object? extraData = null)
     {
@@ -104,12 +129,16 @@ public static class OpenXmlExtensions
         File.WriteAllBytes(excelPath, bytes);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ToExcelFileByTemplate<TEntity>(this IEnumerable<TEntity?> entities, byte[] templateBytes,
         string excelPath, int sheetIndex = 0, object? extraData = null)
     {
         File.WriteAllBytes(excelPath, entities.ToExcelBytesByTemplate(templateBytes, sheetIndex, extraData));
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, string templatePath,
         int sheetIndex = 0, object? extraData = null)
     {
@@ -118,6 +147,8 @@ public static class OpenXmlExtensions
         return entities.ToExcelBytesByTemplate(stream, sheetIndex, extraData);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, byte[] templateBytes,
         int sheetIndex = 0, object? extraData = null)
     {
@@ -126,6 +157,8 @@ public static class OpenXmlExtensions
         return entities.ToExcelBytesByTemplate(stream, sheetIndex, extraData);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToExcelBytesByTemplate<TEntity>(this IEnumerable<TEntity?> entities, Stream templateStream,
         int sheetIndex = 0, object? extraData = null)
     {

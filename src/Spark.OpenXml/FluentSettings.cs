@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using WeihanLi.Common;
 using WeihanLi.Common.Helpers;
@@ -22,6 +23,8 @@ public static class FluentSettings
     /// </summary>
     /// <typeparam name="TEntity">TEntity</typeparam>
     /// <returns>excel configuration for entity</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IExcelConfiguration<TEntity> For<TEntity>() =>
         InternalHelper.GetExcelConfigurationMapping<TEntity>();
 
@@ -29,6 +32,8 @@ public static class FluentSettings
     ///     Load mapping profiles
     /// </summary>
     /// <param name="assemblies">assemblies</param>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.MappingProfileDiscovery)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void LoadMappingProfiles(params Assembly[] assemblies)
     {
         Guard.NotNull(assemblies, nameof(assemblies));
@@ -44,6 +49,8 @@ public static class FluentSettings
     ///     Load mapping profiles
     /// </summary>
     /// <param name="types">mapping profile types</param>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.MappingProfileDiscovery)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void LoadMappingProfiles(params Type[] types)
     {
         Guard.NotNull(types, nameof(types));
@@ -61,6 +68,8 @@ public static class FluentSettings
     /// </summary>
     /// <typeparam name="TEntity">entity type</typeparam>
     /// <typeparam name="TMappingProfile">entity type mapping profile</typeparam>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void LoadMappingProfile<TEntity, TMappingProfile>()
         where TMappingProfile : IMappingProfile<TEntity>, new()
     {
@@ -74,6 +83,8 @@ public static class FluentSettings
     /// <param name="profile">profile</param>
     /// <typeparam name="TEntity">entity type</typeparam>
     /// <typeparam name="TMappingProfile">mapping profile type</typeparam>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void LoadMappingProfile<TEntity, TMappingProfile>(TMappingProfile profile) where TMappingProfile : IMappingProfile<TEntity>
     {
         Guard.NotNull(profile);
@@ -84,6 +95,8 @@ public static class FluentSettings
     ///     Load mapping profile for TEntity
     /// </summary>
     /// <typeparam name="TMappingProfile">entity type mapping profile</typeparam>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.MappingProfileDiscovery)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void LoadMappingProfile<TMappingProfile>() where TMappingProfile : IMappingProfile, new() =>
         LoadMappingProfile(new TMappingProfile());
 
@@ -91,6 +104,8 @@ public static class FluentSettings
     ///     Load mapping profile for TEntity
     /// </summary>
     /// <param name="profile">profile</param>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.MappingProfileDiscovery)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     private static void LoadMappingProfile<TMappingProfile>(TMappingProfile profile) where TMappingProfile : IMappingProfile
     {
         Guard.NotNull(profile, nameof(profile));

@@ -4,6 +4,7 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using WeihanLi.Common;
@@ -218,7 +219,7 @@ internal static class OpenXmlWorkbookWriter
                 break;
             case byte or sbyte or short or ushort or int or uint or long or ulong or float or double or decimal:
                 cell.DataType = CellValues.Number;
-                cell.CellValue = new CellValue(Convert.ToString(value, CultureInfo.InvariantCulture));
+                cell.CellValue = new CellValue(Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty);
                 break;
             default:
                 cell.DataType = CellValues.InlineString;
@@ -465,6 +466,8 @@ internal static class OpenXmlEntityMapper
             ? sheetSetting
             : sheetSettings[0];
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> SheetToEntities<TEntity>(OpenXmlSheet sheet, int sheetIndex,
         Action<TEntity?, ExcelConfiguration<TEntity>, int>? dataAction = null)
         where TEntity : new()
@@ -582,6 +585,8 @@ internal static class OpenXmlEntityMapper
         }
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IReadOnlyList<OpenXmlSheetExport> EntitiesToSheets<TEntity>(IList<TEntity> entityList,
         ExcelFormat excelFormat = ExcelFormat.Xlsx)
     {
@@ -600,6 +605,8 @@ internal static class OpenXmlEntityMapper
         return result;
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static OpenXmlSheetExport EntitiesToSheet<TEntity>(IEnumerable<TEntity?> entityList, int sheetIndex)
     {
         var configuration = InternalHelper.GetExcelConfigurationMapping<TEntity>();
@@ -647,6 +654,8 @@ internal static class OpenXmlEntityMapper
         return sheet;
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     internal static OpenXmlSheetExport CreateSheetExport<TEntity>(SheetSetting sheetSetting,
         ExcelConfiguration<TEntity> configuration,
         IDictionary<PropertyInfo, PropertyConfiguration> propertyColumnDictionary)

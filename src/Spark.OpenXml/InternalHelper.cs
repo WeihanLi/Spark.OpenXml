@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using WeihanLi.Common;
 using Spark.OpenXml.Attributes;
@@ -30,6 +31,8 @@ internal static class InternalHelper
     /// </summary>
     /// <param name="entityType">entityType</param>
     /// <returns>excel configuration</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IExcelConfiguration GetExcelConfigurationMapping(Type entityType) =>
         InternalCache.TypeExcelConfigurationDictionary.GetOrAdd(entityType, type =>
         {
@@ -44,6 +47,8 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity</typeparam>
     /// <returns>IExcelConfiguration</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static ExcelConfiguration<TEntity> GetExcelConfigurationMapping<TEntity>() =>
         (ExcelConfiguration<TEntity>)InternalCache.TypeExcelConfigurationDictionary.GetOrAdd(typeof(TEntity),
             type =>
@@ -53,6 +58,8 @@ internal static class InternalHelper
                 return excelConfiguration;
             });
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     private static ExcelConfiguration CreateExcelConfiguration(Type type,
         Func<ExcelConfiguration> newConfigurationFunc)
     {
@@ -158,6 +165,8 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<TEntity>() =>
         GetPropertyColumnDictionary(GetExcelConfigurationMapping<TEntity>());
 
@@ -166,6 +175,8 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static Dictionary<PropertyInfo, PropertyConfiguration> GetPropertyColumnDictionary<TEntity>(
         ExcelConfiguration<TEntity> configuration)
     {
@@ -180,6 +191,8 @@ internal static class InternalHelper
     /// </summary>
     /// <typeparam name="TEntity">TEntity Type</typeparam>
     /// <returns></returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IReadOnlyList<PropertyInfo> GetPropertiesForCsvHelper<TEntity>()
     {
         var configuration = GetExcelConfigurationMapping<TEntity>();

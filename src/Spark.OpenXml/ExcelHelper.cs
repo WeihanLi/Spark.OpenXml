@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using WeihanLi.Common;
 using WeihanLi.Common.Models;
 using WeihanLi.Common.Services;
@@ -81,20 +82,30 @@ public static class ExcelHelper
         return OpenXmlWorkbookReader.GetSheetNames(stream);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes) where TEntity : new()
         => ToEntityList<TEntity>(excelBytes, ExcelFormat.Xlsx, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, int sheetIndex) where TEntity : new()
         => ToEntityList<TEntity>(excelBytes, ExcelFormat.Xlsx, sheetIndex);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, ExcelFormat excelFormat)
         where TEntity : new()
         => ToEntityList<TEntity>(excelBytes, excelFormat, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] excelBytes, ExcelFormat excelFormat, int sheetIndex)
         where TEntity : new()
         => ToEntities<TEntity>(excelBytes, excelFormat, sheetIndex).ToList();
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(byte[] excelBytes,
         ExcelFormat excelFormat = ExcelFormat.Xlsx, int sheetIndex = 0)
         where TEntity : new()
@@ -104,6 +115,8 @@ public static class ExcelHelper
         return ToEntities<TEntity>(stream, excelFormat, sheetIndex).ToList();
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
         ToEntityListWithValidationResult<TEntity>(
             byte[] excelBytes,
@@ -117,21 +130,31 @@ public static class ExcelHelper
         return ToEntityListWithValidationResult(stream, excelFormat, sheetIndex, validator);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream) where TEntity : new()
         => ToEntityList<TEntity>(excelStream, ExcelFormat.Xlsx, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, int sheetIndex)
         where TEntity : new()
         => ToEntityList<TEntity>(excelStream, ExcelFormat.Xlsx, sheetIndex);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, ExcelFormat excelFormat)
         where TEntity : new()
         => ToEntityList<TEntity>(excelStream, excelFormat, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream excelStream, ExcelFormat excelFormat, int sheetIndex)
         where TEntity : new()
         => ToEntities<TEntity>(excelStream, excelFormat, sheetIndex).ToList();
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(Stream excelStream,
         ExcelFormat excelFormat = ExcelFormat.Xlsx, int sheetIndex = 0)
         where TEntity : new()
@@ -143,6 +166,8 @@ public static class ExcelHelper
             sheetIndex);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
         ToEntityListWithValidationResult<TEntity>(
             Stream excelStream,
@@ -177,12 +202,18 @@ public static class ExcelHelper
         return (entities, validationResults);
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string excelPath) where TEntity : new()
         => ToEntityList<TEntity>(excelPath, 0);
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string excelPath, int sheetIndex) where TEntity : new()
         => ToEntities<TEntity>(excelPath, sheetIndex).ToList();
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(string excelPath, int sheetIndex = 0)
         where TEntity : new()
     {
@@ -195,6 +226,8 @@ public static class ExcelHelper
         return ToEntities<TEntity>(stream, ExcelFormat.Xlsx, sheetIndex).ToList();
     }
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static (List<TEntity?> EntityList, Dictionary<int, ValidationResult> ValidationResults)
         ToEntityListWithValidationResult<TEntity>(
             string excelPath,

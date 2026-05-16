@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using WeihanLi.Common.Services;
 using Spark.OpenXml.Configurations;
 
@@ -145,6 +146,7 @@ public static class ConfigurationExtensions
     /// <param name="excelConfiguration">excelConfiguration</param>
     /// <param name="propertyName">propertyName</param>
     /// <returns>PropertyConfiguration</returns>
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IPropertyConfiguration<TEntity, string> Property<TEntity>(
         this IExcelConfiguration<TEntity> excelConfiguration, string propertyName) =>
         excelConfiguration.Property<string>(propertyName);

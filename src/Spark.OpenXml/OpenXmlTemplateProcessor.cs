@@ -2,6 +2,7 @@
 // Licensed under the Apache license.
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using WeihanLi.Common.Helpers;
 using WeihanLi.Extensions;
 
@@ -11,6 +12,8 @@ internal static class OpenXmlTemplateProcessor
 {
     public static readonly TemplateOptions TemplateOptions = new();
 
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static void ApplyTemplate<TEntity>(OpenXmlSheetExport sheet, IEnumerable<TEntity?> entities,
         object? extraData)
     {

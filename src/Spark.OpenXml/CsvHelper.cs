@@ -2,6 +2,7 @@
 // Licensed under the Apache license.
 
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using WeihanLi.Common;
 using WeihanLi.Common.Helpers;
@@ -34,6 +35,8 @@ public static class CsvHelper
     /// <typeparam name="TEntity">The entity type to map CSV data to</typeparam>
     /// <param name="filePath">Path to the CSV file</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string filePath)
         => ToEntityList<TEntity>(filePath, CsvOptions.Default);
 
@@ -45,6 +48,8 @@ public static class CsvHelper
     /// <param name="csvOptions">Custom CSV parsing options</param>
     /// <returns>A list of entities populated from CSV data</returns>
     /// <exception cref="ArgumentException">Thrown when the file does not exist</exception>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(string filePath, CsvOptions csvOptions)
     {
         Guard.NotNull(filePath);
@@ -66,6 +71,8 @@ public static class CsvHelper
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A lazy-loaded enumerable of entities</returns>
     /// <exception cref="ArgumentException">Thrown when the file does not exist</exception>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(string filePath, CsvOptions? csvOptions = null)
     {
         Guard.NotNull(filePath);
@@ -87,6 +94,8 @@ public static class CsvHelper
     /// <typeparam name="TEntity">The entity type to map CSV data to</typeparam>
     /// <param name="csvBytes">CSV data as byte array</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] csvBytes)
         => ToEntityList<TEntity>(csvBytes, CsvOptions.Default);
 
@@ -97,6 +106,8 @@ public static class CsvHelper
     /// <param name="csvBytes">CSV data as byte array</param>
     /// <param name="csvOptions">Custom CSV parsing options</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(byte[] csvBytes, CsvOptions csvOptions)
     {
         Guard.NotNull(csvBytes);
@@ -111,6 +122,8 @@ public static class CsvHelper
     /// <param name="csvBytes">CSV data as byte array</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A lazy-loaded enumerable of entities</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(byte[] csvBytes, CsvOptions? csvOptions = null)
     {
         Guard.NotNull(csvBytes);
@@ -127,6 +140,8 @@ public static class CsvHelper
     /// <typeparam name="TEntity">The entity type to map CSV data to</typeparam>
     /// <param name="csvStream">Stream containing CSV data</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream csvStream)
         => ToEntityList<TEntity>(csvStream, CsvOptions.Default);
 
@@ -137,6 +152,8 @@ public static class CsvHelper
     /// <param name="csvStream">Stream containing CSV data</param>
     /// <param name="csvOptions">Custom CSV parsing options</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> ToEntityList<TEntity>(Stream csvStream, CsvOptions csvOptions)
     {
         Guard.NotNull(csvStream);
@@ -151,6 +168,8 @@ public static class CsvHelper
     /// <param name="csvStream">Stream containing CSV data</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A lazy-loaded enumerable of entities</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> ToEntities<TEntity>(Stream csvStream, CsvOptions? csvOptions = null)
     {
         Guard.NotNull(csvStream);
@@ -183,6 +202,8 @@ public static class CsvHelper
     /// <param name="csvText">CSV data as a string</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> GetEntityList<TEntity>(string csvText, CsvOptions? csvOptions = null)
         => GetEntities<TEntity>(csvText, csvOptions).ToList();
 
@@ -193,6 +214,8 @@ public static class CsvHelper
     /// <param name="csvText">CSV data as a string</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A lazy-loaded enumerable of entities</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> GetEntities<TEntity>(string csvText, CsvOptions? csvOptions = null)
     {
         Guard.NotNull(csvText);
@@ -223,6 +246,8 @@ public static class CsvHelper
     /// <param name="csvLines">Enumerable collection of CSV lines</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A list of entities populated from CSV data</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static List<TEntity?> GetEntityList<TEntity>(IEnumerable<string> csvLines, CsvOptions? csvOptions = null)
         => GetEntities<TEntity>(csvLines, csvOptions).ToList();
 
@@ -235,6 +260,8 @@ public static class CsvHelper
     /// <param name="csvLines">Enumerable collection of CSV lines</param>
     /// <param name="csvOptions">Optional custom CSV parsing options</param>
     /// <returns>A lazy-loaded enumerable of entities</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<TEntity?> GetEntities<TEntity>(IEnumerable<string> csvLines, CsvOptions? csvOptions = null)
     {
         if (csvLines is null)
@@ -502,6 +529,8 @@ public static class CsvHelper
     /// <param name="entities">The collection of entities to export</param>
     /// <param name="filePath">The destination file path</param>
     /// <returns>True if the file was successfully created; otherwise, false</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static bool ToCsvFile<TEntity>(this IEnumerable<TEntity> entities, string filePath) =>
         ToCsvFile(entities, filePath, CsvOptions.Default);
 
@@ -513,6 +542,8 @@ public static class CsvHelper
     /// <param name="filePath">The destination file path</param>
     /// <param name="includeHeader">Whether to include property names as column headers</param>
     /// <returns>True if the file was successfully created; otherwise, false</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static bool ToCsvFile<TEntity>(this IEnumerable<TEntity> entities, string filePath, bool includeHeader)
     {
         return ToCsvFile(Guard.NotNull(entities), filePath, includeHeader ? CsvOptions.Default : new CsvOptions()
@@ -530,6 +561,8 @@ public static class CsvHelper
     /// <param name="filePath">The destination file path</param>
     /// <param name="csvOptions">Custom CSV formatting options</param>
     /// <returns>True if the file was successfully created; otherwise, false</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static bool ToCsvFile<TEntity>(this IEnumerable<TEntity> entities, string filePath, CsvOptions csvOptions)
     {
         if (entities is null)
@@ -566,6 +599,8 @@ public static class CsvHelper
     /// <param name="filePath">The destination file path</param>
     /// <param name="csvOptions">Optional custom CSV formatting options</param>
     /// <returns>A task that represents the asynchronous operation, containing true if successful</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static async Task<bool> ToCsvFileAsync<TEntity>(this IEnumerable<TEntity> entities, string filePath, CsvOptions? csvOptions = null)
     {
         if (entities is null)
@@ -600,6 +635,8 @@ public static class CsvHelper
     /// <typeparam name="TEntity">The entity type to convert</typeparam>
     /// <param name="entities">The collection of entities to convert</param>
     /// <returns>CSV data as a byte array</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToCsvBytes<TEntity>(this IEnumerable<TEntity> entities) => ToCsvBytes(entities, CsvOptions.Default);
 
     /// <summary>
@@ -609,6 +646,8 @@ public static class CsvHelper
     /// <param name="entities">The collection of entities to convert</param>
     /// <param name="includeHeader">Whether to include property names as column headers</param>
     /// <returns>CSV data as a byte array</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToCsvBytes<TEntity>(this IEnumerable<TEntity> entities, bool includeHeader) =>
         GetCsvText(entities, includeHeader).GetBytes();
 
@@ -619,6 +658,8 @@ public static class CsvHelper
     /// <param name="entities">The collection of entities to convert</param>
     /// <param name="csvOptions">Custom CSV formatting options</param>
     /// <returns>CSV data as a byte array</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static byte[] ToCsvBytes<TEntity>(this IEnumerable<TEntity> entities, CsvOptions csvOptions) =>
         GetCsvText(entities, csvOptions).GetBytes(csvOptions.Encoding);
 
@@ -629,6 +670,8 @@ public static class CsvHelper
     /// <param name="entities">The collection of entities to convert</param>
     /// <param name="includeHeader">Whether to include property names as column headers</param>
     /// <returns>CSV data as a string</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static string GetCsvText<TEntity>(this IEnumerable<TEntity> entities, bool includeHeader = true)
     {
         return GetCsvText(Guard.NotNull(entities), includeHeader ? CsvOptions.Default : new CsvOptions()
@@ -644,6 +687,8 @@ public static class CsvHelper
     /// <param name="entities">The collection of entities to convert</param>
     /// <param name="csvOptions">Custom CSV formatting options</param>
     /// <returns>CSV data as a string</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static string GetCsvText<TEntity>(this IEnumerable<TEntity> entities, CsvOptions csvOptions) =>
         GetCsvLines(entities, csvOptions).StringJoin(Environment.NewLine);
 
@@ -657,6 +702,8 @@ public static class CsvHelper
     /// <param name="csvOptions">Optional custom CSV formatting options</param>
     /// <typeparam name="TEntity">The entity type to convert</typeparam>
     /// <returns>CSV formatted lines</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public static IEnumerable<string> GetCsvLines<TEntity>(this IEnumerable<TEntity> entities, CsvOptions? csvOptions = null)
     {
         if (entities is null)
@@ -675,7 +722,7 @@ public static class CsvHelper
             foreach (var entity in entities)
             {
                 if (entity is IFormattable formattableEntity)
-                    yield return formattableEntity.ToString();
+                    yield return formattableEntity.ToString(null, null) ?? string.Empty;
                 else
                     yield return Convert.ToString(entity) ?? string.Empty;
             }

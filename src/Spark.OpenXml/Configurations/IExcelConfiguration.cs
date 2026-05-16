@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using WeihanLi.Common.Services;
@@ -104,6 +105,7 @@ public interface IExcelConfiguration<TEntity> : IExcelConfiguration
     /// <typeparam name="TProperty">PropertyType</typeparam>
     /// <param name="propertyExpression">propertyExpression to get property info</param>
     /// <returns>current property configuration</returns>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(
         Expression<Func<TEntity, TProperty>> propertyExpression);
 
@@ -113,5 +115,6 @@ public interface IExcelConfiguration<TEntity> : IExcelConfiguration
     /// <typeparam name="TProperty">PropertyType</typeparam>
     /// <param name="propertyName">propertyName</param>
     /// <returns>current property configuration</returns>
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(string propertyName);
 }

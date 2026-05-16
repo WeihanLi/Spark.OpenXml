@@ -1,5 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build/common.props" />
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>  
+    <AssemblyName>Spark.OpenXml</AssemblyName>
+    <RootNamespace>Spark.OpenXml</RootNamespace>
+    <Title>Spark.OpenXml</Title>
+    <PackageId>Spark.OpenXml</PackageId>
+    <Authors>WeihanLi</Authors>
+    <Company>WeihanLi</Company>
+    <Product>Spark.OpenXml</Product>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/7604648</PackageIconUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/WeihanLi/Spark.OpenXml</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WeihanLi/Spark.OpenXml</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>openxml excel xlsx csv</PackageTags>
+    <Description>
+      Open XML SDK based Excel and CSV import/export helpers.
+      Import/Export xlsx or csv to/from entity lists
+      Custom configuration and mappings via Attribute/FluentAPI
+    </Description>
+    <PackageReleaseNotes>
+      https://github.com/WeihanLi/Spark.OpenXml/tree/dev/docs/ReleaseNotes.md
+    </PackageReleaseNotes>
+    <EnablePackageValidation>false</EnablePackageValidation>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" />

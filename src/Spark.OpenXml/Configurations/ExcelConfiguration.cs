@@ -1,6 +1,7 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using WeihanLi.Common;
@@ -188,6 +189,7 @@ internal sealed class ExcelConfiguration<TEntity> : ExcelConfiguration, IExcelCo
     /// <returns>The <see cref="IPropertyConfiguration" />.</returns>
     /// <param name="propertyExpression">The property expression.</param>
     /// <typeparam name="TProperty">The type of parameter.</typeparam>
+    [RequiresUnreferencedCode(AotCompatibilityMessages.ReflectionMapping)]
     public IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(
         Expression<Func<TEntity, TProperty>> propertyExpression)
     {
@@ -207,6 +209,7 @@ internal sealed class ExcelConfiguration<TEntity> : ExcelConfiguration, IExcelCo
     /// <typeparam name="TProperty">Property type.</typeparam>
     /// <param name="propertyName">Property name.</param>
     /// <returns>Property configuration.</returns>
+    [RequiresDynamicCode(AotCompatibilityMessages.DynamicGenericMapping)]
     public IPropertyConfiguration<TEntity, TProperty> Property<TProperty>(string propertyName)
     {
         var property = PropertyConfigurationDictionary.Keys.FirstOrDefault(p => p.Name == propertyName);
