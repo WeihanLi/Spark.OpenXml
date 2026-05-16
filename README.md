@@ -17,16 +17,6 @@ This package is the Open XML rewrite of `Spark.OpenXml`. It keeps the high-level
 - Basic freeze panes, column width, and auto filter metadata
 - Template placeholder export from `.xlsx` templates
 
-## Not Supported
-
-- `.xls`
-- Public workbook/sheet/row/cell APIs such as `IWorkbook`, `ISheet`, `IRow`, `ICell`, `LoadExcel`, and `PrepareWorkbook`
-- NPOI callback hooks such as `RowAction`, `CellAction`, `SheetAction`, `RowFilter`, and `CellFilter`
-- Cell reader callbacks tied to NPOI cell objects
-- Formula evaluation
-- Image/picture import and export
-- Direct style editing through NPOI objects
-
 ## Install
 
 ```sh
@@ -62,20 +52,6 @@ public sealed class User
 using Spark.OpenXml;
 
 var users = ExcelHelper.ToEntityList<User>("users.xlsx");
-```
-
-## Multi-Sheet Export
-
-```csharp
-using Spark.OpenXml;
-
-var sheets = new[]
-{
-    new[] { new User { Id = 1, Name = "Alice" } },
-    new[] { new User { Id = 2, Name = "Bob" } }
-};
-
-sheets.ToExcelFile("users.xlsx");
 ```
 
 ## Mapping
@@ -121,7 +97,3 @@ using Spark.OpenXml;
 users.ToCsvFile("users.csv");
 var imported = CsvHelper.ToEntityList<User>("users.csv");
 ```
-
-## Compatibility Notes
-
-`Spark.OpenXml` starts at version `1.0.0` as a new package. It is not a drop-in binary replacement for `Spark.OpenXml` because the public NPOI object model APIs were removed. Code that already uses the high-level entity, template, and CSV APIs should require only namespace/package changes unless it depends on `.xls` or NPOI-specific hooks.
