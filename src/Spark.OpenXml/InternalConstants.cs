@@ -35,11 +35,6 @@ internal static class InternalConstants
     /// </summary>
     public const string ApplicationName = "Spark.OpenXml";
 
-    /// <summary>
-    ///     Marker appended when duplicate column titles are encountered.
-    /// </summary>
-    public const string DuplicateColumnMark = "__dup_mark__";
-
     #region TemplateParamFormat
 
     /// <summary>

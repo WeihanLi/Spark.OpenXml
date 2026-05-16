@@ -1,7 +1,6 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using System.Data;
 using WeihanLi.Common.Models;
 using WeihanLi.Common.Services;
 using WeihanLi.Extensions;
@@ -91,49 +90,6 @@ public class ExcelTest
                 .HasColumnOutputFormatter(null)
                 .HasColumnInputFormatter(null);
         }
-    }
-
-    [Theory]
-    [ClassData(typeof(ExcelFormatData))]
-    public void DataTableImportExportTest(ExcelFormat excelFormat)
-    {
-        var dt = new DataTable();
-        dt.Columns.AddRange(new[]
-        {
-            new DataColumn("Name"),
-            new DataColumn("Age"),
-            new DataColumn("Desc"),
-        });
-        for (var i = 0; i < 10; i++)
-        {
-            var row = dt.NewRow();
-            row.ItemArray = new object[] { $"Test_{i}", i + 10, $"Desc_{i}" };
-            dt.Rows.Add(row);
-        }
-
-        var excelBytes = dt.ToExcelBytes(excelFormat);
-        var importedData = ExcelHelper.ToDataTable(excelBytes, excelFormat);
-
-        Assert.Equal(dt.Rows.Count, importedData.Rows.Count);
-        Assert.Equal(dt.Columns.Count, importedData.Columns.Count);
-        for (var i = 0; i < dt.Rows.Count; i++)
-        {
-            for (var j = 0; j < dt.Columns.Count; j++)
-            {
-                Assert.Equal(Convert.ToString(dt.Rows[i].ItemArray[j]), Convert.ToString(importedData.Rows[i].ItemArray[j]));
-            }
-        }
-    }
-
-    [Theory]
-    [InlineData(@"TestData/EmptyColumns/emptyColumns.xlsx", ExcelFormat.Xlsx)]
-    public void DataTableImportExportTestWithFirstColumnsEmpty(string file, ExcelFormat excelFormat)
-    {
-        var importedData = ExcelHelper.ToDataTable(File.ReadAllBytes(file), excelFormat);
-        Assert.Equal(4, importedData.Rows.Count);
-        Assert.Equal(4, importedData.Columns.Count);
-        Assert.Equal("3", importedData.Rows[0][2]);
-        Assert.Equal("1", importedData.Rows[2][0]);
     }
 
     [Theory]

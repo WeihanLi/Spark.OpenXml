@@ -1,7 +1,6 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using System.Data;
 using System.Text;
 using WeihanLi.Extensions;
 using Spark.OpenXml.Configurations;
@@ -98,118 +97,6 @@ public class CsvTest
                 .HasColumnIndex(3);
             noticeSetting.Property(_ => _.PublishedAt)
                 .HasColumnIndex(4);
-        }
-    }
-
-    [Fact]
-    public void DataTableImportExportTest()
-    {
-        var dt = new DataTable();
-        dt.Columns.AddRange(new[] { new DataColumn("Name"), new DataColumn("Age"), new DataColumn("Desc"), });
-        for (var i = 0; i < 10; i++)
-        {
-            var row = dt.NewRow();
-            row.ItemArray = new object[] { $"Test_{i}", i + 10, $"Desc_{i}" };
-            dt.Rows.Add(row);
-        }
-
-        //
-        var csvBytes = dt.ToCsvBytes();
-        var importedData = CsvHelper.ToDataTable(csvBytes);
-        Assert.NotNull(importedData);
-        Assert.Equal(dt.Rows.Count, importedData.Rows.Count);
-        for (var i = 0; i < dt.Rows.Count; i++)
-        {
-            Assert.Equal(dt.Rows[i].ItemArray.Length, importedData.Rows[i].ItemArray.Length);
-            for (var j = 0; j < dt.Rows[i].ItemArray.Length; j++)
-            {
-                Assert.Equal(dt.Rows[i].ItemArray[j], importedData.Rows[i].ItemArray[j]);
-            }
-        }
-    }
-
-    [Theory]
-    [InlineData(@"TestData/EmptyColumns/emptyColumns.csv")]
-    public void DataTableWithFirstLineEmpty(string testDataFilePath)
-    {
-        var bytes = File.ReadAllBytes(testDataFilePath);
-        var importedData = CsvHelper.ToDataTable(bytes);
-        var dt = new DataTable();
-        dt.Columns.AddRange(new[]
-        {
-            new DataColumn("A"), new DataColumn("B"), new DataColumn("C"), new DataColumn("D"),
-        });
-
-        var row = dt.NewRow();
-        row.ItemArray = new object[] { "", "", "3", "4" };
-        dt.Rows.Add(row);
-
-        row = dt.NewRow();
-        row.ItemArray = new object[] { "", "2", "3", "" };
-        dt.Rows.Add(row);
-
-        row = dt.NewRow();
-        row.ItemArray = new object[] { "1", "2", "", "" };
-        dt.Rows.Add(row);
-
-        row = dt.NewRow();
-        row.ItemArray = new object[] { "1", "2", "3", "4" };
-        dt.Rows.Add(row);
-
-        Assert.NotNull(importedData);
-
-        Assert.Equal(4, importedData.Rows.Count);
-
-        for (var rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
-        {
-            for (var colIndex = 0; colIndex < dt.Rows[rowIndex].ItemArray.Length; colIndex++)
-            {
-                var expectedValue = dt.Rows[rowIndex].ItemArray[colIndex]?.ToString();
-                var excelValue = importedData.Rows[rowIndex][colIndex].ToString();
-                Assert.Equal(expectedValue, excelValue);
-            }
-        }
-    }
-
-    [Theory]
-    [InlineData(@"TestData/NonStringColumns/nonStringColumns.csv")]
-    public void DataTableImportExportTestWithNonStringColumns(string testDataFilePath)
-    {
-        // Act
-        var importedData = CsvHelper.ToDataTable(testDataFilePath);
-
-        // Assert
-        var dt = new DataTable();
-        dt.Columns.AddRange(new[]
-        {
-            new DataColumn("A"), new DataColumn("1000"), new DataColumn("TRUE"), new DataColumn("15/08/2021")
-        });
-
-        var row = dt.NewRow();
-        row.ItemArray = new object[] { "1", "2", "3", "4" };
-        dt.Rows.Add(row);
-
-        Assert.NotNull(importedData);
-
-        Assert.Equal(1, importedData.Rows.Count);
-
-        // Check columns
-        for (var headerIndex = 0; headerIndex < dt.Columns.Count; headerIndex++)
-        {
-            var expectedValue = dt.Columns[headerIndex].ToString();
-            var excelValue = importedData.Columns[headerIndex].ToString();
-            Assert.Equal(expectedValue, excelValue);
-        }
-
-        // Check rows
-        for (var rowIndex = 0; rowIndex < dt.Rows.Count; rowIndex++)
-        {
-            for (var colIndex = 0; colIndex < dt.Rows[rowIndex].ItemArray.Length; colIndex++)
-            {
-                var expectedValue = dt.Rows[rowIndex].ItemArray[colIndex]?.ToString();
-                var excelValue = importedData.Rows[rowIndex][colIndex].ToString();
-                Assert.Equal(expectedValue, excelValue);
-            }
         }
     }
 
@@ -336,22 +223,6 @@ public class CsvTest
     }
 
     [Fact]
-    public void DuplicateColumnTest()
-    {
-        var csvText = $@"A,B,C,A,B,C{Environment.NewLine}1,2,3,4,5,6";
-        var dataTable = CsvHelper.ToDataTable(csvText.GetBytes());
-        Assert.Equal(6, dataTable.Columns.Count);
-        Assert.Equal(1, dataTable.Rows.Count);
-
-        var newCsvText = dataTable.GetCsvText();
-        Assert.StartsWith("A,B,C,A,B,C", newCsvText);
-        var newDataTable = CsvHelper.ToDataTable(newCsvText.GetBytes());
-
-        Assert.Equal(dataTable.Columns.Count, newDataTable.Columns.Count);
-        Assert.Equal(dataTable.Rows.Count, newDataTable.Rows.Count);
-    }
-
-    [Fact]
     public void CsvOptionTest_CustomSeparatorCharacter()
     {
         var list = new Notice[]
@@ -382,20 +253,6 @@ public class CsvTest
         for (var i = 0; i < list.Count; i++)
         {
             Assert.Equal(list[i], importedList[i]);
-        }
-    }
-
-    [Fact]
-    public void CsvToDataTableEncodingTest()
-    {
-        var list = new List<TestModel>() { new() { Age = 1, Name = "中华小当家" } };
-        var encoding = Encoding.GetEncoding("gb2312");
-        var bytes = list.ToCsvBytes(new CsvOptions() { Encoding = encoding });
-        var dataTable = CsvHelper.ToDataTable(bytes, new CsvOptions() { Encoding = encoding });
-        Assert.Equal(list.Count, dataTable.Rows.Count);
-        for (var i = 0; i < list.Count; i++)
-        {
-            Assert.Equal(list[i].Name, dataTable.Rows[i]["Name"]);
         }
     }
 

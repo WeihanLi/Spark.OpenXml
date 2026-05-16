@@ -62,20 +62,18 @@ var tempDirPath = $@"{Environment.GetEnvironmentVariable("USERPROFILE")}\Desktop
 {
     // custom CsvSeparatorCharacter sample
     var csvOptions = new CsvOptions() { SeparatorCharacter = '\t' };
-    var text = CsvHelper.GetCsvText(new[]
+    var text = new[]
     {
         new
         {
             Title = "123",
             Desc = "234"
         }
-    }, csvOptions);
-    var dt1233 = CsvHelper.ToDataTable(text.GetBytes(), csvOptions);
+    }.GetCsvText(csvOptions);
 }
 
 //var tempExcelPath = Path.Combine(tempDirPath, "testdata.xlsx");
 //var t_list = ExcelHelper.ToEntityList<ppDto>(tempExcelPath);
-//var tempTable = ExcelHelper.ToDataTable(tempExcelPath);
 
 //var entityList = ExcelHelper.ToEntityList<TestEntity>(ApplicationHelper.MapPath("test.xlsx"));
 
@@ -121,7 +119,6 @@ var tempDirPath = $@"{Environment.GetEnvironmentVariable("USERPROFILE")}\Desktop
 //watch.Stop();
 //Console.WriteLine($"ElapsedMilliseconds: {watch.ElapsedMilliseconds}ms");
 ////var listTemp = ExcelHelper.ToEntityList<TestEntity2>($@"{tempDirPath}\testEntity2.xlsx");
-//var dataTableTemp = ExcelHelper.ToDataTable($@"{tempDirPath}\testEntity2.xlsx");
 
 //Console.WriteLine("Press Enter to continue...");
 //Console.ReadLine();
@@ -163,20 +160,13 @@ entities.ToCsvFile(csvFilePath);
 
 var entitiesT0 = ExcelHelper.ToEntityList<TestEntity>(csvFilePath.Replace(".csv", ".xlsx"));
 
-var dataTable = entities.ToDataTable();
-dataTable.ToCsvFile(csvFilePath.Replace(".csv", ".datatable.csv"));
-var dt = CsvHelper.ToDataTable(csvFilePath.Replace(".csv", ".datatable.csv"));
-Console.WriteLine(dt.Columns.Count);
 var entities1 = CsvHelper.ToEntityList<TestEntity>(csvFilePath);
 
 entities1[1]!.DisplayName = ",tadadada";
 entities1[0]!.SettingValue = "value2,345";
 entities1.ToCsvFile(csvFilePath.Replace(".csv", ".1.csv"));
-entities1.ToDataTable().ToCsvFile(csvFilePath.Replace(".csv", ".1.datatable.csv"));
 
 var list = CsvHelper.ToEntityList<TestEntity>(csvFilePath.Replace(".csv", ".1.csv"));
-dt = CsvHelper.ToDataTable(csvFilePath.Replace(".csv", ".1.datatable.csv"));
-Console.WriteLine(dt.Columns.Count);
 var entities2 = CsvHelper.ToEntityList<TestEntity>(csvFilePath.Replace(".csv", ".1.csv"));
 
 entities.ToExcelFile(csvFilePath.Replace(".csv", ".xlsx"));

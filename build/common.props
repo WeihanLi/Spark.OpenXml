@@ -16,7 +16,7 @@
     <PackageTags>openxml excel xlsx csv</PackageTags>
     <Description>
       Open XML SDK based Excel and CSV import/export helpers.
-      Import/Export xlsx or csv to/from entity list or DataTable(DataSet)
+      Import/Export xlsx or csv to/from entity lists
       Custom configuration and mappings via Attribute/FluentAPI
     </Description>
     <PackageReleaseNotes>

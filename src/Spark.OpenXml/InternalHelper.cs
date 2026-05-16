@@ -191,22 +191,4 @@ internal static class InternalHelper
             .ToArray();
     }
 
-    /// <summary>
-    ///     Generates a unique column name to temporarily disambiguate duplicates.
-    /// </summary>
-    /// <param name="columnName">Original column title.</param>
-    /// <returns>Encoded column name with a duplicate marker.</returns>
-    public static string GetEncodedColumnName(string columnName) =>
-        $"{columnName}{InternalConstants.DuplicateColumnMark}{Guid.NewGuid():N}";
-
-    /// <summary>
-    ///     Removes the duplicate marker from a previously encoded column name.
-    /// </summary>
-    /// <param name="columnName">Encoded column title.</param>
-    /// <returns>Original column name.</returns>
-    public static string GetDecodeColumnName(string columnName)
-    {
-        var duplicateMarkIndex = columnName.IndexOf(InternalConstants.DuplicateColumnMark, StringComparison.OrdinalIgnoreCase);
-        return duplicateMarkIndex > 0 ? columnName.Substring(0, duplicateMarkIndex) : columnName;
-    }
 }

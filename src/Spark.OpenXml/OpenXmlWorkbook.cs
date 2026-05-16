@@ -4,7 +4,6 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using System.Data;
 using System.Globalization;
 using System.Reflection;
 using WeihanLi.Common;
@@ -691,108 +690,4 @@ internal static class OpenXmlEntityMapper
         IsIgnored = source.IsIgnored,
         PropertyName = source.PropertyName
     };
-}
-
-internal static class OpenXmlDataTableMapper
-{
-    public static IReadOnlyList<OpenXmlSheetExport> DataTableToSheets(DataTable dataTable,
-        ExcelFormat excelFormat = ExcelFormat.Xlsx, ExcelSetting? excelSetting = null)
-    {
-        ExcelHelper.EnsureXlsx(excelFormat);
-        var maxRowCount = InternalConstants.MaxRowCountXlsx - 1;
-        var sheetCount = Math.Max(1, (dataTable.Rows.Count + maxRowCount - 1) / maxRowCount);
-        var result = new List<OpenXmlSheetExport>(sheetCount);
-
-        for (var sheetIndex = 0; sheetIndex < sheetCount; sheetIndex++)
-        {
-            var sheet = new OpenXmlSheetExport
-            {
-                Name = $"Sheet{sheetIndex}",
-                HeaderRowIndex = 0,
-                RowsCount = Math.Min(maxRowCount, dataTable.Rows.Count - sheetIndex * maxRowCount)
-            };
-            for (var i = 0; i < dataTable.Columns.Count; i++)
-            {
-                OpenXmlEntityMapper.SetCell(sheet, 0, i, InternalHelper.GetDecodeColumnName(dataTable.Columns[i].ColumnName));
-            }
-
-            for (var i = 0; i < sheet.RowsCount; i++)
-            {
-                var sourceRow = dataTable.Rows[sheetIndex * maxRowCount + i];
-                for (var j = 0; j < dataTable.Columns.Count; j++)
-                {
-                    OpenXmlEntityMapper.SetCell(sheet, i + 1, j,
-                        OpenXmlWorkbookWriter.FormatExportValue(sourceRow[j], null));
-                }
-            }
-
-            result.Add(sheet);
-        }
-
-        return result;
-    }
-
-    public static DataSet SheetsToDataSet(IReadOnlyList<OpenXmlSheet> sheets, int headerRowIndex)
-    {
-        var dataSet = new DataSet();
-        foreach (var sheet in sheets)
-        {
-            dataSet.Tables.Add(SheetToDataTable(sheet, headerRowIndex));
-        }
-
-        return dataSet;
-    }
-
-    public static DataTable SheetToDataTable(OpenXmlSheet sheet, int headerRowIndex,
-        bool removeEmptyRows = false, int? maxColumns = null)
-    {
-        if (sheet.Rows.Count == 0 || sheet.Rows.Keys.Max() <= headerRowIndex)
-        {
-            throw new ArgumentOutOfRangeException(nameof(headerRowIndex),
-                string.Format(Resource.IndexOutOfRange, nameof(headerRowIndex), sheet.Rows.Count));
-        }
-
-        var dataTable = new DataTable(sheet.Name);
-        var headerRow = sheet.Rows.TryGetValue(headerRowIndex, out var row)
-            ? row
-            : new SortedDictionary<int, string?>();
-        var lastColumn = maxColumns ?? Math.Max(headerRow.Keys.DefaultIfEmpty(0).Max() + 1,
-            sheet.Rows.Values.SelectMany(x => x.Keys).DefaultIfEmpty(0).Max() + 1);
-
-        for (var columnIndex = 0; columnIndex < lastColumn; columnIndex++)
-        {
-            var columnName = headerRow.TryGetValue(columnIndex, out var value) ? value?.Trim() ?? string.Empty : string.Empty;
-            if (dataTable.Columns.Contains(columnName))
-            {
-                columnName = InternalHelper.GetEncodedColumnName(columnName);
-            }
-
-            dataTable.Columns.Add(columnName);
-        }
-
-        foreach (var rowEntry in sheet.Rows.Where(x => x.Key > headerRowIndex))
-        {
-            var dataRow = dataTable.NewRow();
-            var isEmptyRow = true;
-            for (var columnIndex = 0; columnIndex < dataTable.Columns.Count; columnIndex++)
-            {
-                var value = rowEntry.Value.TryGetValue(columnIndex, out var cellValue) ? cellValue ?? string.Empty : string.Empty;
-                if (!string.IsNullOrEmpty(value))
-                {
-                    isEmptyRow = false;
-                }
-
-                dataRow[columnIndex] = value;
-            }
-
-            if (removeEmptyRows && isEmptyRow)
-            {
-                continue;
-            }
-
-            dataTable.Rows.Add(dataRow);
-        }
-
-        return dataTable;
-    }
 }

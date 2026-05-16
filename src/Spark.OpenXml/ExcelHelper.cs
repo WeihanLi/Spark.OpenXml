@@ -1,7 +1,6 @@
 // Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
-using System.Data;
 using WeihanLi.Common;
 using WeihanLi.Common.Models;
 using WeihanLi.Common.Services;
@@ -212,73 +211,4 @@ public static class ExcelHelper
         return ToEntityListWithValidationResult(stream, ExcelFormat.Xlsx, sheetIndex, validator);
     }
 
-    public static DataTable ToDataTable<TEntity>(string excelPath) where TEntity : new()
-        => ToDataTable<TEntity>(excelPath, 0);
-
-    public static DataTable ToDataTable<TEntity>(string excelPath, int sheetIndex) where TEntity : new()
-    {
-        var sheetSetting = InternalHelper.GetExcelConfigurationMapping<TEntity>().SheetSettings.TryGetValue(sheetIndex,
-            out var configuredSheetSetting)
-            ? configuredSheetSetting
-            : InternalHelper.GetExcelConfigurationMapping<TEntity>().SheetSettings[0];
-        return ToDataTable(excelPath, sheetIndex, sheetSetting.HeaderRowIndex);
-    }
-
-    public static DataTable ToDataTable(string excelPath) => ToDataTable(excelPath, 0, 0);
-
-    public static DataTable ToDataTable(string excelPath, int sheetIndex)
-        => ToDataTable(excelPath, sheetIndex, 0);
-
-    public static DataTable ToDataTable(string excelPath, int sheetIndex, int headerRowIndex,
-        bool removeEmptyRows = false, int? maxColumns = null)
-    {
-        if (!ValidateExcelFilePath(excelPath, out var msg))
-        {
-            throw new ArgumentException(msg, nameof(excelPath));
-        }
-
-        using var stream = new FileStream(excelPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        return ToDataTable(stream, sheetIndex, headerRowIndex, removeEmptyRows, maxColumns);
-    }
-
-    public static DataTable ToDataTable(byte[] excelBytes, ExcelFormat excelFormat = ExcelFormat.Xlsx,
-        bool removeEmptyRows = false, int? maxColumns = null)
-        => ToDataTable(excelBytes, excelFormat, 0, 0, removeEmptyRows, maxColumns);
-
-    public static DataTable ToDataTable(byte[] excelBytes, ExcelFormat excelFormat, int sheetIndex,
-        bool removeEmptyRows = false, int? maxColumns = null)
-        => ToDataTable(excelBytes, excelFormat, sheetIndex, 0, removeEmptyRows, maxColumns);
-
-    public static DataTable ToDataTable(byte[] excelBytes, ExcelFormat excelFormat, int sheetIndex,
-        int headerRowIndex, bool removeEmptyRows = false, int? maxColumns = null)
-    {
-        EnsureXlsx(excelFormat);
-        Guard.NotNull(excelBytes);
-        using var stream = new MemoryStream(excelBytes);
-        return ToDataTable(stream, sheetIndex, headerRowIndex, removeEmptyRows, maxColumns);
-    }
-
-    public static DataTable ToDataTable(Stream excelStream, int sheetIndex = 0, int headerRowIndex = 0,
-        bool removeEmptyRows = false, int? maxColumns = null)
-    {
-        Guard.NotNull(excelStream);
-        return OpenXmlDataTableMapper.SheetToDataTable(
-            OpenXmlWorkbookReader.ReadSheet(excelStream, sheetIndex),
-            headerRowIndex,
-            removeEmptyRows,
-            maxColumns);
-    }
-
-    public static DataSet ToDataSet(string excelPath) => ToDataSet(excelPath, 0);
-
-    public static DataSet ToDataSet(string excelPath, int headerRowIndex)
-    {
-        if (!ValidateExcelFilePath(excelPath, out var msg))
-        {
-            throw new ArgumentException(msg, nameof(excelPath));
-        }
-
-        using var stream = new FileStream(excelPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        return OpenXmlDataTableMapper.SheetsToDataSet(OpenXmlWorkbookReader.ReadSheets(stream), headerRowIndex);
-    }
 }

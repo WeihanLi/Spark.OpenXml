@@ -9,7 +9,6 @@ This package is the Open XML rewrite of `Spark.OpenXml`. It keeps the high-level
 - `.xlsx` import/export
 - CSV import/export
 - Entity list import/export
-- `DataTable` and `DataSet` import/export
 - Attribute mapping and Fluent API mapping
 - Input/output formatters
 - Import validation
@@ -63,29 +62,6 @@ public sealed class User
 using Spark.OpenXml;
 
 var users = ExcelHelper.ToEntityList<User>("users.xlsx");
-```
-
-## Export DataTable
-
-```csharp
-using Spark.OpenXml;
-using System.Data;
-
-var table = new DataTable("Users");
-table.Columns.Add("Id", typeof(int));
-table.Columns.Add("Name", typeof(string));
-table.Rows.Add(1, "Alice");
-table.Rows.Add(2, "Bob");
-
-table.ToExcelFile("users.xlsx");
-```
-
-## Import DataTable
-
-```csharp
-using Spark.OpenXml;
-
-var table = ExcelHelper.ToDataTable("users.xlsx");
 ```
 
 ## Multi-Sheet Export
@@ -148,4 +124,4 @@ var imported = CsvHelper.ToEntityList<User>("users.csv");
 
 ## Compatibility Notes
 
-`Spark.OpenXml` starts at version `1.0.0` as a new package. It is not a drop-in binary replacement for `Spark.OpenXml` because the public NPOI object model APIs were removed. Code that already uses the high-level entity, `DataTable`, template, and CSV APIs should require only namespace/package changes unless it depends on `.xls` or NPOI-specific hooks.
+`Spark.OpenXml` starts at version `1.0.0` as a new package. It is not a drop-in binary replacement for `Spark.OpenXml` because the public NPOI object model APIs were removed. Code that already uses the high-level entity, template, and CSV APIs should require only namespace/package changes unless it depends on `.xls` or NPOI-specific hooks.
