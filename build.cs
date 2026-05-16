@@ -1,4 +1,4 @@
-// Copyright (c) Weihan Li. All rights reserved.
+﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
 #:package WeihanLi.Common
@@ -12,9 +12,6 @@ string[] srcProjects = [
 string[] testProjects = [ 
     "./test/Spark.OpenXml.Test/Spark.OpenXml.Test.csproj"
 ];
-string[] runFileSamplesFolders = [
-    "./samples/run-file-samples"
-];
 
 await DotNetPackageBuildProcess
     .Create(options => 
@@ -22,6 +19,5 @@ await DotNetPackageBuildProcess
         options.SolutionPath = solutionPath;
         options.SrcProjects = srcProjects;
         options.TestProjects = testProjects;
-        options.RunFileSampleFolders = runFileSamplesFolders;
     })
     .ExecuteAsync(args);
