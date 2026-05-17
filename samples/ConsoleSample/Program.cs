@@ -198,11 +198,15 @@ static void SheetNameTest()
         exprotDataList.Add(temp);
     }
     var setting = FluentSettings.For<ExcelExportDTO>();
-    setting.HasSheetConfiguration(1, "我是一个Sheet_111", true);
     setting.HasSheetSetting(s =>
     {
         s.SheetName = "Shee-0000";
     });
+    setting.HasSheetSetting(sheet =>
+    {
+        sheet.SheetName = "Sheet1";
+        sheet.AutoColumnWidthEnabled = true;
+    }, 1);
 
     var deskTopFullPath = System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
     var exportFileName = Path.Combine(deskTopFullPath, "Test_for_weihanli.xlsx");
@@ -214,18 +218,19 @@ class TestEntityExcelMappingProfile : IMappingProfile<TestEntity>
     public void Configure(IExcelConfiguration<TestEntity> setting)
     {
         // ExcelSetting
-        setting.HasAuthor("WeihanLi")
-            .HasTitle("Spark.OpenXml test")
-            .HasDescription("Spark.OpenXml test")
-            .HasSubject("Spark.OpenXml test")
-            ;
+        setting.HasExcelSetting(excel =>
+        {
+            excel.Author = "WeihanLi";
+            excel.Title = "Spark.OpenXml test";
+            excel.Description = "Spark.OpenXml test";
+            excel.Subject =  "Spark.OpenXml test";
+        });
 
         setting.HasSheetSetting(config =>
         {
             config.StartRowIndex = 1;
             config.SheetName = "SystemSettingsList";
             config.AutoColumnWidthEnabled = true;
-
         });
 
         // setting.HasFilter(0, 1).HasFreezePane(0, 1, 2, 1);

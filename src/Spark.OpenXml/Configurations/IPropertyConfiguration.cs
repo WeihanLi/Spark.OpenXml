@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using DocumentFormat.OpenXml.Spreadsheet;
+
 namespace Spark.OpenXml.Configurations;
 
 /// <summary>
@@ -19,48 +21,48 @@ public interface IPropertyConfiguration<out TEntity, TProperty> : IPropertyConfi
     ///     HasColumnIndex
     /// </summary>
     /// <param name="index">index</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasColumnIndex(int index);
 
     /// <summary>
     ///     HasColumnWidth
     /// </summary>
     /// <param name="width">width</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasColumnWidth(int width);
 
     /// <summary>
     ///     HasColumnTitle
     /// </summary>
     /// <param name="title">title</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasColumnTitle(string title);
 
     /// <summary>
     ///     HasColumnFormatter
     /// </summary>
     /// <param name="formatter">formatter</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasColumnFormatter(string? formatter);
 
     /// <summary>
     ///     Ignored
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> Ignored(bool ignored = true);
 
     /// <summary>
     ///     HasColumnInputFormatter
     /// </summary>
     /// <param name="formatterFunc">formatterFunc</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasColumnInputFormatter(Func<string?, TProperty?>? formatterFunc);
 
     /// <summary>
     ///     HasOutputFormatter
     /// </summary>
     /// <param name="formatterFunc">columnFormatter</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasOutputFormatter(
         Func<TEntity?, TProperty?, object?>? formatterFunc);
 
@@ -68,7 +70,14 @@ public interface IPropertyConfiguration<out TEntity, TProperty> : IPropertyConfi
     ///     HasInputFormatter
     /// </summary>
     /// <param name="formatterFunc">columnFormatter</param>
-    /// <returns></returns>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasInputFormatter(
         Func<TEntity?, TProperty?, TProperty>? formatterFunc);
+    
+    /// <summary>
+    /// HasCellReader(For spreadsheet/Excel only)
+    /// </summary>
+    /// <param name="cellReader">custom cell value reader</param>
+    /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
+    IPropertyConfiguration<TEntity, TProperty> HasCellReader(Func<Cell, TProperty>? cellReader);
 }

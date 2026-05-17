@@ -41,7 +41,7 @@ internal static class OpenXmlTemplateProcessor
                     var val = key.GetValueGetter<TEntity>()?.Invoke(entity);
                     try
                     {
-                        return formatterFunc.DynamicInvoke(entity, val);
+                        return formatterFunc.Method.Invoke(entity, [val]);
                     }
                     catch (Exception e)
                     {

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using DocumentFormat.OpenXml.Packaging;
 using Spark.OpenXml.Settings;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
@@ -33,6 +34,8 @@ internal abstract class ExcelConfiguration : IExcelConfiguration
     ///     Gets or sets the filter configuration for the sheet.
     /// </summary>
     public FilterSetting? FilterSetting { get; set; }
+
+    public Action<SpreadsheetDocument>? DocumentConfigure { get; set; }
 
     /// <summary>
     ///     Gets the registered sheet settings keyed by sheet index.
@@ -126,6 +129,12 @@ internal abstract class ExcelConfiguration : IExcelConfiguration
     public IExcelConfiguration HasFilter(int firstColumn, int? lastColumn)
     {
         FilterSetting = new FilterSetting(firstColumn, lastColumn);
+        return this;
+    }
+
+    public IExcelConfiguration HasDocumentConfigure(Action<SpreadsheetDocument> configure)
+    {
+        DocumentConfigure = configure;
         return this;
     }
 

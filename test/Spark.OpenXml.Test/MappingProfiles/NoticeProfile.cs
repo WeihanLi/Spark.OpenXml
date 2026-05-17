@@ -11,24 +11,27 @@ public sealed class NoticeProfile : IMappingProfile<Notice>
 {
     public void Configure(IExcelConfiguration<Notice> noticeSetting)
     {
-        noticeSetting
-            .HasAuthor("WeihanLi")
-            .HasTitle("Spark.OpenXml test")
+        noticeSetting.HasExcelSetting(excel =>
+            {
+                excel.Author = "Spark";
+                excel.Title = "Notice";
+                excel.Description = "Spark.OpenXml test";
+            })
             .HasSheetSetting(setting =>
             {
                 setting.SheetName = "NoticeList";
                 setting.AutoColumnWidthEnabled = true;
             })
             ;
-        noticeSetting.Property(_ => _.Id)
+        noticeSetting.Property(x => x.Id)
             .HasColumnIndex(0);
-        noticeSetting.Property(_ => _.Title)
+        noticeSetting.Property(x => x.Title)
             .HasColumnIndex(1);
-        noticeSetting.Property(_ => _.Content)
+        noticeSetting.Property(x => x.Content)
             .HasColumnIndex(2);
-        noticeSetting.Property(_ => _.Publisher)
+        noticeSetting.Property(x => x.Publisher)
             .HasColumnIndex(3);
-        noticeSetting.Property(_ => _.PublishedAt)
+        noticeSetting.Property(x => x.PublishedAt)
             .HasColumnIndex(4)
             .HasColumnOutputFormatter(x => x.ToTimeString());
     }

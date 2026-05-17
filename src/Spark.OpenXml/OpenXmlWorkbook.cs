@@ -267,13 +267,13 @@ internal static class OpenXmlWorkbookWriter
 
     private static string SanitizeSheetName(string? sheetName)
     {
-        var name = sheetName.IsNullOrWhiteSpace() ? "Sheet0" : sheetName!;
+        var name = sheetName.IsNullOrWhiteSpace() ? "Sheet0" : sheetName;
         foreach (var invalidChar in new[] { '\\', '/', '?', '*', '[', ']', ':' })
         {
             name = name.Replace(invalidChar, '_');
         }
 
-        return name.Length > 31 ? name.Substring(0, 31) : name;
+        return name.Length > 31 ? name[..31] : name;
     }
 
     private static Stylesheet CreateStylesheet() =>
@@ -287,9 +287,10 @@ internal static class OpenXmlWorkbookWriter
 
     private static void ApplyPackageProperties(SpreadsheetDocument document, ExcelSetting setting)
     {
-        document.PackageProperties.Creator = setting.Author;
         document.PackageProperties.Created = DateTime.Now;
         document.PackageProperties.Modified = DateTime.Now;
+        document.PackageProperties.Creator = setting.Author;
+        document.PackageProperties.LastModifiedBy = setting.Author;
         document.PackageProperties.Title = setting.Title;
         document.PackageProperties.Subject = setting.Subject;
         document.PackageProperties.Category = setting.Category;
@@ -531,7 +532,8 @@ internal static class OpenXmlEntityMapper
                 {
                     continue;
                 }
-
+                
+                InternalCache.CellReaderFuncCache.TryGetValue(key, out var cellReaderFunc);
                 var cellValue = sheet.GetCellText(rowIndex, colIndex);
                 if (cellValue is not null)
                 {

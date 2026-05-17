@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using DocumentFormat.OpenXml.Spreadsheet;
 using System.Reflection;
 using WeihanLi.Extensions;
 
@@ -121,6 +122,12 @@ internal sealed class PropertyConfiguration<TEntity, TProperty> : PropertyConfig
         Func<TEntity?, TProperty?, TProperty?>? formatterFunc)
     {
         InternalCache.InputFormatterFuncCache.AddOrUpdate(_propertyInfo, formatterFunc);
+        return this;
+    }
+
+    public IPropertyConfiguration<TEntity, TProperty> HasCellReader(Func<Cell, TProperty>? cellReader)
+    {
+        InternalCache.CellReaderFuncCache.AddOrUpdate(_propertyInfo, cellReader);
         return this;
     }
 

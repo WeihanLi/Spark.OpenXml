@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Weihan Li. All rights reserved.
 // Licensed under the Apache license.
 
+using DocumentFormat.OpenXml.Packaging;
 using Spark.OpenXml.Settings;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
@@ -63,6 +64,13 @@ public interface IExcelConfiguration
     /// <param name="lastColumn">lastCol Index of last column (inclusive), must be equal to or larger than {@code firstCol}</param>
     /// <returns>current excel configuration<see ref="IExcelConfiguration" /></returns>
     IExcelConfiguration HasFilter(int firstColumn, int? lastColumn);
+
+    /// <summary>
+    /// configure the spreadsheet document
+    /// </summary>
+    /// <param name="configure">document configure</param>
+    /// <returns>current excel configuration<see ref="IExcelConfiguration" /></returns>
+    IExcelConfiguration HasDocumentConfigure(Action<SpreadsheetDocument> configure);
 }
 
 /// <summary>
