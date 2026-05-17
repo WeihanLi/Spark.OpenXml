@@ -532,7 +532,7 @@ internal static class OpenXmlEntityMapper
                 {
                     continue;
                 }
-                
+
                 InternalCache.CellReaderFuncCache.TryGetValue(key, out var cellReaderFunc);
                 var cellValue = sheet.GetCellText(rowIndex, colIndex);
                 if (cellValue is not null)

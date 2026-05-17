@@ -28,7 +28,7 @@ internal static class InternalCache
     ///     Cacheable delegates that pre-process property values before the column formatter runs.
     /// </summary>
     public static readonly ConcurrentDictionary<PropertyInfo, Delegate?> ColumnInputFormatterFuncCache = new();
-    
+
     /// <summary>
     ///     Cacheable delegates that read a cell value into the desired property type.
     /// </summary>

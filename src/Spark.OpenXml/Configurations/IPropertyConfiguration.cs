@@ -73,7 +73,7 @@ public interface IPropertyConfiguration<out TEntity, TProperty> : IPropertyConfi
     /// <returns>The current <see cref="IPropertyConfiguration{TEntity,TProperty}"/> configuration</returns>
     IPropertyConfiguration<TEntity, TProperty> HasInputFormatter(
         Func<TEntity?, TProperty?, TProperty>? formatterFunc);
-    
+
     /// <summary>
     /// HasCellReader(For spreadsheet/Excel only)
     /// </summary>

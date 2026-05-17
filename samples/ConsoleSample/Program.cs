@@ -223,7 +223,7 @@ class TestEntityExcelMappingProfile : IMappingProfile<TestEntity>
             excel.Author = "WeihanLi";
             excel.Title = "Spark.OpenXml test";
             excel.Description = "Spark.OpenXml test";
-            excel.Subject =  "Spark.OpenXml test";
+            excel.Subject = "Spark.OpenXml test";
         });
 
         setting.HasSheetSetting(config =>
