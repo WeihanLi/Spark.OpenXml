@@ -94,3 +94,8 @@ For package-related changes, run the build script so package validation and shar
 - Prefer `rg`/`rg --files` for repository search.
 - Use `apply_patch` for manual edits.
 - Before finishing, run the narrowest meaningful validation command for the change and report any commands that could not be run.
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
