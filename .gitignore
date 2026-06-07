@@ -5,8 +5,10 @@
 
 # Cutom files
 localBuild/
-_site
-.vscode
+_site/
+.vscode/
+specs/
+.specify/feature.json
 
 # User-specific files
 *.suo

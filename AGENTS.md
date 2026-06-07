@@ -97,5 +97,6 @@ For package-related changes, run the build script so package validation and shar
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read
+`specs/20260606-000000-npoi-feature-parity/plan.md`.
 <!-- SPECKIT END -->

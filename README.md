@@ -1,5 +1,7 @@
 # Spark.OpenXml
 
+See [WeihanLi.Npoi Parity](docs/articles/npoi-parity.md) for migration guidance and the current support inventory.
+
 `Spark.OpenXml` is a `DocumentFormat.OpenXml` based Excel and CSV import/export library for .NET.
 
 This package is the Open XML rewrite of `Spark.OpenXml`. It keeps the high-level import/export, mapping, formatter, validation, template, multi-sheet, and CSV APIs, and removes the public NPOI workbook/sheet/row/cell APIs that do not map cleanly to Open XML SDK.
